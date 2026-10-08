@@ -1,5 +1,5 @@
-﻿/**
- * DECORA â€” Seed content & site configuration
+/**
+ * DECORA — Seed content & site configuration
  * Used as the fallback data layer so the site is fully functional
  * even when the API/database is unavailable.
  */
@@ -16,7 +16,7 @@ export const SITE = {
   whatsapp: '923001234567',
   email: 'hello@decora-civil.com',
   address: 'DECORA House, Gulberg III, Lahore, Pakistan',
-  hours: 'Mon â€“ Sat: 9:00 AM â€“ 7:00 PM',
+  hours: 'Mon – Sat: 9:00 AM – 7:00 PM',
   mapEmbed:
     'https://maps.google.com/maps?q=Gulberg%20Lahore%20Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed',
   founded: 2015,
@@ -83,7 +83,7 @@ export const SERVICES = [
     slug: 'civil-construction',
     icon: 'civil',
     description:
-      'End-to-end civil construction â€” from foundation to finishing â€” executed with engineered precision and uncompromising quality.',
+      'End-to-end civil construction — from foundation to finishing — executed with engineered precision and uncompromising quality.',
     features: ['Structural Work', 'Turnkey Delivery', 'Quality Assurance'],
   },
   {
@@ -99,7 +99,7 @@ export const SERVICES = [
     slug: 'aluminum-glass-works',
     icon: 'glass',
     description:
-      'Precision-fabricated aluminum and glazing systems â€” facades, partitions, windows and frameless assemblies.',
+      'Precision-fabricated aluminum and glazing systems — facades, partitions, windows and frameless assemblies.',
     features: ['Facade Systems', 'Frameless Partitions', 'Custom Fabrication'],
   },
   {
@@ -180,12 +180,12 @@ export const PROJECTS = [
       img('1497366811353-6870744d04b2'),
     ],
     description:
-      'A nine-storey corporate tower with a unitised glass facade, column-free office floors and a triple-height lobby â€” delivered in 14 months with zero lost-time incidents.',
+      'A nine-storey corporate tower with a unitised glass facade, column-free office floors and a triple-height lobby — delivered in 14 months with zero lost-time incidents.',
     scope: ['RCC Superstructure', 'Unitised Glass Facade', 'Core & Shell MEP', 'Interior Fit-Out'],
     completedAt: 'November 2024',
     testimonial: {
       quote:
-        'Their project management discipline kept a very aggressive timeline on track. Handover was on the date promised â€” to the day.',
+        'Their project management discipline kept a very aggressive timeline on track. Handover was on the date promised — to the day.',
       author: 'Vikram Shah',
       role: 'Director, Meridian Estates',
     },
@@ -206,7 +206,7 @@ export const PROJECTS = [
       img('1494526585095-c41746248156'),
     ],
     description:
-      'A muted, material-led apartment interior â€” travertine, brushed bronze and smoked oak â€” designed for quiet luxury and everyday ease.',
+      'A muted, material-led apartment interior — travertine, brushed bronze and smoked oak — designed for quiet luxury and everyday ease.',
     scope: ['Space Planning', 'Joinery & Woodwork', 'Lighting & Electrical', 'Styling & Handover'],
     completedAt: 'June 2025',
     testimonial: {
@@ -252,7 +252,7 @@ export const PROJECTS = [
       img('1560448204-e02f11c3d0e2'),
     ],
     description:
-      'A 40-year-old villa reimagined for modern family life â€” structural repairs, updated services and contemporary interiors woven into its original character.',
+      'A 40-year-old villa reimagined for modern family life — structural repairs, updated services and contemporary interiors woven into its original character.',
     scope: ['Structural Repair', 'Complete Rewiring', 'Interior Redesign', 'Heritage Restoration'],
     completedAt: 'February 2024',
     testimonial: {
@@ -278,7 +278,7 @@ export const PROJECTS = [
       img('1631679706909-1844bbd07221'),
     ],
     description:
-      'A chef-grade kitchen with handleless cabinetry, book-matched stone surfaces and integrated appliances â€” the centrepiece of a sea-facing apartment.',
+      'A chef-grade kitchen with handleless cabinetry, book-matched stone surfaces and integrated appliances — the centrepiece of a sea-facing apartment.',
     scope: ['Modular Cabinetry', 'Stone Fabrication', 'Appliance Integration', 'Task Lighting'],
     completedAt: 'January 2025',
     testimonial: {
@@ -324,7 +324,7 @@ export const PROJECTS = [
       img('1600585154526-990dced4db0d'),
     ],
     description:
-      'A tropical retreat of exposed concrete, deep overhangs and indoor-outdoor living â€” engineered for monsoon resilience and cross ventilation.',
+      'A tropical retreat of exposed concrete, deep overhangs and indoor-outdoor living — engineered for monsoon resilience and cross ventilation.',
     scope: ['Turnkey Civil Work', 'Waterproofing Systems', 'Joinery & Screens', 'Pool & Deck'],
     completedAt: 'October 2024',
     testimonial: {
@@ -350,7 +350,7 @@ export const PROJECTS = [
       img('1497366811353-6870744d04b2'),
     ],
     description:
-      'A 120-seat agile workspace with acoustic pods, glass cabins and a warm material palette â€” delivered in a live building over six weeks.',
+      'A 120-seat agile workspace with acoustic pods, glass cabins and a warm material palette — delivered in a live building over six weeks.',
     scope: ['Space Planning', 'Glass Partitions', 'Workstation Install', 'Acoustic Treatment'],
     completedAt: 'April 2025',
   }),
@@ -405,7 +405,7 @@ export const PRODUCTS = [
     category: 'Aluminum & Glass',
     image: img('1517581177682-a085bb7ffb15'),
     description:
-      '10â€“12mm toughened frameless partitions with slim channel details â€” acoustic privacy without losing light or openness.',
+      '10–12mm toughened frameless partitions with slim channel details — acoustic privacy without losing light or openness.',
     features: ['Acoustic Glass Options', 'Slim Floor Channels', 'Custom Heights'],
     price: 'On request',
     featured: true,
@@ -427,7 +427,7 @@ export const PRODUCTS = [
     category: 'Interior Design',
     image: img('1600566752355-35792bedcfea'),
     description:
-      'Layered gypsum and pop ceiling designs with integrated cove, spot and profile lighting planned for every roomâ€™s mood.',
+      'Layered gypsum and pop ceiling designs with integrated cove, spot and profile lighting planned for every room’s mood.',
     features: ['Gypsum & POP Designs', 'Cove Lighting', 'Dimmable Profiles'],
     price: 'On request',
     featured: false,
@@ -460,7 +460,7 @@ export const PRODUCTS = [
     category: 'Home Renovation',
     image: img('1502005229762-cf1b2da7c5d6'),
     description:
-      'A single-team renovation covering demolition, civil repairs, services, finishes and styling â€” one timeline, one point of contact.',
+      'A single-team renovation covering demolition, civil repairs, services, finishes and styling — one timeline, one point of contact.',
     features: ['Single-Point Delivery', 'Civil & MEP Repairs', 'Turnkey Finishing'],
     price: 'On request',
     featured: false,
@@ -482,7 +482,7 @@ export const PRODUCTS = [
     category: 'Construction Materials',
     image: img('1631679706909-1844bbd07221'),
     description:
-      'BWP-grade plywood, MDF, wicker and cladding panels sourced from trusted mills â€” supplied to site or used in our own joinery.',
+      'BWP-grade plywood, MDF, wicker and cladding panels sourced from trusted mills — supplied to site or used in our own joinery.',
     features: ['BWP/BWR Grades', 'Termite Treatment', 'Bulk Supply Available'],
     price: 'On request',
     featured: false,
@@ -511,7 +511,7 @@ export const WHY_CHOOSE_US = [
   {
     icon: 'team',
     title: 'Skilled Team',
-    description: 'In-house engineers, supervisors and craftsmen â€” not loose subcontractor networks.',
+    description: 'In-house engineers, supervisors and craftsmen — not loose subcontractor networks.',
   },
   {
     icon: 'time',
@@ -521,7 +521,7 @@ export const WHY_CHOOSE_US = [
   {
     icon: 'value',
     title: 'Affordable Excellence',
-    description: 'Premium outcomes without premium waste â€” value engineered from day one.',
+    description: 'Premium outcomes without premium waste — value engineered from day one.',
   },
   {
     icon: 'design',
@@ -561,7 +561,7 @@ export const TESTIMONIALS = [
     role: 'Homeowner',
     company: 'Luxe Haven Interiors',
     rating: 5,
-    text: 'The interior team understood the quiet, warm aesthetic we wanted immediately. Every detail â€” from joinery to lighting â€” feels considered.',
+    text: 'The interior team understood the quiet, warm aesthetic we wanted immediately. Every detail — from joinery to lighting — feels considered.',
     avatar: img('1580489944761-15a19d654956', 200),
     featured: true,
   },
@@ -617,7 +617,7 @@ export const TEAM = [
   {
     name: 'Aditya Rathore',
     role: 'Founder & CEO',
-    bio: 'Civil engineer with 18 years across residential and commercial delivery. Sets DECORAâ€™s quality bar and culture.',
+    bio: 'Civil engineer with 18 years across residential and commercial delivery. Sets DECORA’s quality bar and culture.',
     image: img('1560250097-0b93528c311a', 800),
   },
   {
@@ -629,7 +629,7 @@ export const TEAM = [
   {
     name: 'Rahul Verma',
     role: 'Senior Project Manager',
-    bio: 'Owns schedules, sites and stakeholders â€” the reason our handovers land on the promised date.',
+    bio: 'Owns schedules, sites and stakeholders — the reason our handovers land on the promised date.',
     image: img('1507003211169-0a1dd7228f2d', 800),
   },
   {
@@ -641,7 +641,7 @@ export const TEAM = [
   {
     name: 'Aisha Fernandes',
     role: 'Design Lead',
-    bio: 'Leads visualisation and detailing â€” turning concepts into shop drawings that site teams can build from.',
+    bio: 'Leads visualisation and detailing — turning concepts into shop drawings that site teams can build from.',
     image: img('1580489944761-15a19d654956', 800),
   },
 ]
@@ -652,7 +652,7 @@ export const COMPANY_STORY = [
   {
     year: '2015',
     title: 'The Foundation',
-    text: 'DECORA is founded as a two-person civil contractor taking on residential builds with a simple promise â€” quality without excuses.',
+    text: 'DECORA is founded as a two-person civil contractor taking on residential builds with a simple promise — quality without excuses.',
   },
   {
     year: '2017',
@@ -677,12 +677,12 @@ export const COMPANY_STORY = [
   {
     year: '2025',
     title: '150+ & Counting',
-    text: 'Aluminum & glass fabrication scales up â€” completing DECORAâ€™s modern building solutions stack.',
+    text: 'Aluminum & glass fabrication scales up — completing DECORA’s modern building solutions stack.',
   },
 ]
 
 export const MISSION =
-  'To deliver civil construction and interior solutions of uncompromising quality â€” on time, on budget, and exactly as designed.'
+  'To deliver civil construction and interior solutions of uncompromising quality — on time, on budget, and exactly as designed.'
 
 export const VISION =
   'To be the most trusted name in premium construction and interiors, known for craftsmanship that outlives the trend cycle.'

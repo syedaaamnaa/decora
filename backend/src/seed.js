@@ -1,4 +1,4 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import mongoose from 'mongoose';
 
 import { connectDB } from './config/db.js';
@@ -16,7 +16,7 @@ const img = (id) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
 
 /* ------------------------------------------------------------------ */
-/* Sample content â€” only inserted when a collection is empty.          */
+/* Sample content — only inserted when a collection is empty.          */
 /* ------------------------------------------------------------------ */
 
 const services = [
@@ -64,7 +64,7 @@ const services = [
     title: 'Residential Projects',
     icon: 'residential',
     description:
-      'Homes built with detail and care â€” villas, apartments and turnkey residences.',
+      'Homes built with detail and care — villas, apartments and turnkey residences.',
     features: ['Villa Construction', 'Turnkey Finishing', 'Landscape Works'],
     order: 6,
   },
@@ -135,7 +135,7 @@ const projects = [
     completedAt: 'June 2025',
     testimonial: {
       quote:
-        'Every detail â€” from the cabinetry to the lighting â€” was executed exactly as designed.',
+        'Every detail — from the cabinetry to the lighting — was executed exactly as designed.',
       author: 'Neha Kapoor',
       role: 'Client',
     },
@@ -214,7 +214,7 @@ const products = [
     category: 'Aluminum & Glass',
     description:
       'Minimal frameless partitions that divide spaces while keeping light flowing through.',
-    features: ['10â€“12mm Toughened Glass', 'Concealed Fixings', 'Acoustic Options'],
+    features: ['10–12mm Toughened Glass', 'Concealed Fixings', 'Acoustic Options'],
     image: img('photo-1517581177682-a085bb7ffb15'),
     featured: false,
   },
@@ -249,7 +249,7 @@ const products = [
     title: 'Office Workstation Fit-Outs',
     category: 'Office Interiors',
     description:
-      'Complete workstation fit-outs â€” desks, storage and cable management â€” installed at scale.',
+      'Complete workstation fit-outs — desks, storage and cable management — installed at scale.',
     features: ['Ergonomic Layouts', 'Cable Management', 'Bulk Rollout Ready'],
     image: img('photo-1524758631624-e2822e304c36'),
     featured: true,
@@ -279,7 +279,7 @@ const testimonials = [
     role: 'Founder',
     company: 'Prisma Interiors',
     rating: 5,
-    text: 'A rare team that cares about finish details as much as we do â€” our clients are thrilled.',
+    text: 'A rare team that cares about finish details as much as we do — our clients are thrilled.',
     featured: true,
   },
   {
@@ -307,8 +307,8 @@ const settingsDoc = {
   phone: '+92 300 1234567',
   whatsapp: '923001234567',
   email: 'hello@decora-civil.com',
-  address: 'DECORA House, Civil Lines, City Centre, MP 462001',
-  hours: 'Mon â€“ Sat: 9:00 AM â€“ 7:00 PM',
+  address: 'DECORA House, Gulberg III, Lahore, Pakistan',
+  hours: 'Mon – Sat: 9:00 AM – 7:00 PM',
   mapEmbed:
     'https://maps.google.com/maps?q=Gulberg%20Lahore%20Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed',
   social: {
@@ -340,7 +340,7 @@ async function seedIfEmpty(Model, docs, label) {
     console.log(`  - ${label}: ${count} existing, skipped`);
     return count;
   }
-  // Model.create (not insertMany) so schema hooks run â€” slugs, defaults, etc.
+  // Model.create (not insertMany) so schema hooks run — slugs, defaults, etc.
   await Model.create(docs);
   console.log(`  - ${label}: inserted ${docs.length}`);
   return docs.length;
