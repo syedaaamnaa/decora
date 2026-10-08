@@ -260,7 +260,7 @@ export default function Contact() {
                               className="field"
                               value={form.phone}
                               onChange={update('phone')}
-                              placeholder="+91 00000 00000"
+                              placeholder="+92 300 0000000"
                             />
                           </div>
                         </div>

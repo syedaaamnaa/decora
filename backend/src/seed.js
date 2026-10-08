@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import mongoose from 'mongoose';
 
 import { connectDB } from './config/db.js';
@@ -16,7 +16,7 @@ const img = (id) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=80`;
 
 /* ------------------------------------------------------------------ */
-/* Sample content — only inserted when a collection is empty.          */
+/* Sample content â€” only inserted when a collection is empty.          */
 /* ------------------------------------------------------------------ */
 
 const services = [
@@ -64,7 +64,7 @@ const services = [
     title: 'Residential Projects',
     icon: 'residential',
     description:
-      'Homes built with detail and care — villas, apartments and turnkey residences.',
+      'Homes built with detail and care â€” villas, apartments and turnkey residences.',
     features: ['Villa Construction', 'Turnkey Finishing', 'Landscape Works'],
     order: 6,
   },
@@ -74,7 +74,7 @@ const projects = [
   {
     title: 'The Aurelia Residence',
     category: 'Residential',
-    location: 'Bhopal, MP',
+    location: 'Lahore, Punjab',
     year: 2025,
     area: '4,800 sq.ft',
     featured: true,
@@ -97,7 +97,7 @@ const projects = [
   {
     title: 'Meridian Corporate Tower',
     category: 'Commercial',
-    location: 'Indore, MP',
+    location: 'Karachi, Sindh',
     year: 2024,
     area: '42,000 sq.ft',
     featured: true,
@@ -120,7 +120,7 @@ const projects = [
   {
     title: 'Luxe Haven Interiors',
     category: 'Interior',
-    location: 'Gurugram, NCR',
+    location: 'Islamabad, Capital Territory',
     year: 2025,
     area: '3,200 sq.ft',
     featured: true,
@@ -135,7 +135,7 @@ const projects = [
     completedAt: 'June 2025',
     testimonial: {
       quote:
-        'Every detail — from the cabinetry to the lighting — was executed exactly as designed.',
+        'Every detail â€” from the cabinetry to the lighting â€” was executed exactly as designed.',
       author: 'Neha Kapoor',
       role: 'Client',
     },
@@ -143,7 +143,7 @@ const projects = [
   {
     title: 'Skyline Business Park',
     category: 'Civil',
-    location: 'Pune, MH',
+    location: 'Faisalabad, Punjab',
     year: 2023,
     area: '85,000 sq.ft',
     featured: false,
@@ -160,7 +160,7 @@ const projects = [
   {
     title: 'Heritage Villa Renovation',
     category: 'Renovation',
-    location: 'Jaipur, RJ',
+    location: 'Rawalpindi, Punjab',
     year: 2024,
     area: '5,500 sq.ft',
     featured: true,
@@ -183,7 +183,7 @@ const projects = [
   {
     title: 'Onyx Kitchen Studio',
     category: 'Interior',
-    location: 'Mumbai, MH',
+    location: 'Gujranwala, Punjab',
     year: 2025,
     area: '1,400 sq.ft',
     featured: true,
@@ -214,7 +214,7 @@ const products = [
     category: 'Aluminum & Glass',
     description:
       'Minimal frameless partitions that divide spaces while keeping light flowing through.',
-    features: ['10–12mm Toughened Glass', 'Concealed Fixings', 'Acoustic Options'],
+    features: ['10â€“12mm Toughened Glass', 'Concealed Fixings', 'Acoustic Options'],
     image: img('photo-1517581177682-a085bb7ffb15'),
     featured: false,
   },
@@ -249,7 +249,7 @@ const products = [
     title: 'Office Workstation Fit-Outs',
     category: 'Office Interiors',
     description:
-      'Complete workstation fit-outs — desks, storage and cable management — installed at scale.',
+      'Complete workstation fit-outs â€” desks, storage and cable management â€” installed at scale.',
     features: ['Ergonomic Layouts', 'Cable Management', 'Bulk Rollout Ready'],
     image: img('photo-1524758631624-e2822e304c36'),
     featured: true,
@@ -279,7 +279,7 @@ const testimonials = [
     role: 'Founder',
     company: 'Prisma Interiors',
     rating: 5,
-    text: 'A rare team that cares about finish details as much as we do — our clients are thrilled.',
+    text: 'A rare team that cares about finish details as much as we do â€” our clients are thrilled.',
     featured: true,
   },
   {
@@ -304,13 +304,13 @@ const settingsDoc = {
   key: 'site',
   companyName: 'DECORA Civil & Interiors',
   tagline: 'Building Excellence. Designing Experiences.',
-  phone: '+91 98765 43210',
-  whatsapp: '919876543210',
+  phone: '+92 300 1234567',
+  whatsapp: '923001234567',
   email: 'hello@decora-civil.com',
   address: 'DECORA House, Civil Lines, City Centre, MP 462001',
-  hours: 'Mon – Sat: 9:00 AM – 7:00 PM',
+  hours: 'Mon â€“ Sat: 9:00 AM â€“ 7:00 PM',
   mapEmbed:
-    'https://maps.google.com/maps?q=Civil%20Lines%20Bhopal&t=&z=13&ie=UTF8&iwloc=&output=embed',
+    'https://maps.google.com/maps?q=Gulberg%20Lahore%20Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed',
   social: {
     instagram: 'https://instagram.com/decora.civil',
     linkedin: 'https://linkedin.com/company/decora-civil',
@@ -319,11 +319,11 @@ const settingsDoc = {
   },
   about: {
     story:
-      'DECORA Civil & Interiors is a Bhopal-based design-and-build studio delivering civil construction and turnkey interiors since 2015. We bring architects, engineers and craftspeople under one roof so clients get one accountable team from first sketch to final handover.',
+      'DECORA Civil & Interiors is a Lahore-based design-and-build studio delivering civil construction and turnkey interiors since 2015. We bring architects, engineers and craftspeople under one roof so clients get one accountable team from first sketch to final handover.',
     mission:
       'To deliver durable, beautifully finished spaces on time and on budget for every client.',
     vision:
-      'To be Central India\'s most trusted civil and interiors partner.',
+      'To be Pakistan\'s most trusted civil and interiors partner.',
     values: ['Integrity', 'Craftsmanship', 'Innovation', 'Timeliness'],
   },
   stats: { projects: 150, clients: 100, years: 10, cities: 20 },
@@ -340,7 +340,7 @@ async function seedIfEmpty(Model, docs, label) {
     console.log(`  - ${label}: ${count} existing, skipped`);
     return count;
   }
-  // Model.create (not insertMany) so schema hooks run — slugs, defaults, etc.
+  // Model.create (not insertMany) so schema hooks run â€” slugs, defaults, etc.
   await Model.create(docs);
   console.log(`  - ${label}: inserted ${docs.length}`);
   return docs.length;

@@ -115,7 +115,7 @@ export default function InquiryModal() {
                   </div>
                   <div>
                     <label className="field-label" htmlFor="iq-phone">Phone</label>
-                    <input id="iq-phone" className="field" value={form.phone} onChange={update('phone')} placeholder="+91 00000 00000" />
+                    <input id="iq-phone" className="field" value={form.phone} onChange={update('phone')} placeholder="+92 300 0000000" />
                   </div>
                 </div>
 
@@ -152,7 +152,7 @@ export default function InquiryModal() {
                   )}
                 </button>
                 <p className="text-center text-[11px] text-white/40">
-                  Or WhatsApp us directly at +91 98765 43210
+                  Or WhatsApp us directly at +92 300 1234567
                 </p>
               </motion.form>
             )}

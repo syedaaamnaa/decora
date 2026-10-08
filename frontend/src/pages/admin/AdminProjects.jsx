@@ -369,7 +369,7 @@ export default function AdminProjects() {
                 className="field"
                 value={form.location}
                 onChange={set('location')}
-                placeholder="Bhopal, MP"
+                placeholder="Lahore, Punjab"
               />
             </div>
 
