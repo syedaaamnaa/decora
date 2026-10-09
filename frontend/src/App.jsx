@@ -25,6 +25,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'))
 const Login = lazy(() => import('@/pages/Login'))
 const AdminLayout = lazy(() => import('@/pages/admin/AdminLayout'))
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'))
+const AdminHeroSlides = lazy(() => import('@/pages/admin/AdminHeroSlides'))
 const AdminProjects = lazy(() => import('@/pages/admin/AdminProjects'))
 const AdminProducts = lazy(() => import('@/pages/admin/AdminProducts'))
 const AdminClients = lazy(() => import('@/pages/admin/AdminClients'))
@@ -52,6 +53,7 @@ export default function App() {
       <Route path="/admin/login" element={<Login />} />
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="hero" element={<AdminHeroSlides />} />
         <Route path="projects" element={<AdminProjects />} />
         <Route path="products" element={<AdminProducts />} />
         <Route path="clients" element={<AdminClients />} />

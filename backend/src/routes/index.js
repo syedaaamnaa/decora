@@ -10,6 +10,7 @@ import servicesRouter from './services.js';
 import settingsRouter from './settings.js';
 import statsRouter from './stats.js';
 import uploadsRouter from './uploads.js';
+import heroSlidesRouter from './heroSlides.js';
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use('/services', servicesRouter);
 router.use('/settings', settingsRouter);
 router.use('/stats', statsRouter);
 router.use('/uploads', uploadsRouter);
+router.use('/hero-slides', heroSlidesRouter);
 
 export default router;

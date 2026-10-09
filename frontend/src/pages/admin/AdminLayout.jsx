@@ -8,6 +8,7 @@ import {
   FiBriefcase,
   FiExternalLink,
   FiGrid,
+  FiImage,
   FiInbox,
   FiLogOut,
   FiMessageSquare,
@@ -18,6 +19,7 @@ import { apiGet, apiHealth, clearToken, fetchMe, getToken } from '@/lib/api'
 
 const NAV = [
   { to: '/admin', label: 'Dashboard', icon: FiGrid, end: true },
+  { to: '/admin/hero', label: 'Hero Slides', icon: FiImage },
   { to: '/admin/projects', label: 'Projects', icon: FiBriefcase },
   { to: '/admin/products', label: 'Products', icon: FiBox },
   { to: '/admin/clients', label: 'Clients', icon: FiUsers },
@@ -26,6 +28,7 @@ const NAV = [
 ]
 
 const TITLES = [
+  { match: '/admin/hero', title: 'Hero Slides' },
   { match: '/admin/projects', title: 'Projects' },
   { match: '/admin/products', title: 'Products' },
   { match: '/admin/clients', title: 'Clients' },

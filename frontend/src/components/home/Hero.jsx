@@ -1,263 +1,187 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Autoplay, EffectFade } from 'swiper/modules'
-import { AnimatePresence, motion } from 'framer-motion'
-import gsap from 'gsap'
-import { IoArrowBack, IoArrowForward, IoChevronDown } from 'react-icons/io5'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { IoArrowBack, IoArrowForward } from 'react-icons/io5'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 
+import { apiList } from '@/lib/api'
 import { HERO_SLIDES, SITE } from '@/data/seed'
 
-const EASE = [0.22, 1, 0.36, 1]
-const LINE_1 = 'Building Excellence.'.split(' ')
-const LINE_2 = 'Designing Experiences.'.split(' ')
-const TEXT_DELAY = 1.45
+function HeroBackground({ slide, eager }) {
+  const [failed, setFailed] = useState(false)
 
-function Word({ children, delay, className = '' }) {
+  if (!slide.image || failed) return null
+
   return (
-    <span className="mr-[0.26em] inline-block overflow-hidden pb-[0.08em] align-bottom">
-      <motion.span
-        className={`inline-block ${className}`}
-        initial={{ y: '118%', opacity: 0 }}
-        animate={{ y: '0%', opacity: 1 }}
-        transition={{ delay, duration: 1, ease: EASE }}
-      >
-        {children}
-      </motion.span>
-    </span>
+    <img
+      src={slide.image}
+      alt=""
+      aria-hidden="true"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      onError={() => setFailed(true)}
+      className="absolute inset-0 h-full w-full object-cover"
+    />
   )
 }
 
-/**
- * Full-screen hero — fading image slider, Ken Burns zoom, glass content card
- * with GSAP mouse parallax and staggered word reveal.
- */
+function Heading({ heading, highlightText }) {
+  if (!highlightText || !heading.includes(highlightText)) return heading
+
+  const [before, after] = heading.split(highlightText)
+  return (
+    <>
+      {before}
+      <span className="text-gradient">{highlightText}</span>
+      {after}
+    </>
+  )
+}
+
+function slideKey(slide) {
+  return slide._id || slide.id || `${slide.order}-${slide.name}`
+}
+
 export default function Hero() {
+  const [slides, setSlides] = useState(HERO_SLIDES)
   const [active, setActive] = useState(0)
-  const sectionRef = useRef(null)
-  const cardRef = useRef(null)
   const swiperRef = useRef(null)
+  const reducedMotion = useReducedMotion() ?? false
 
-  /* GSAP: content card follows the pointer with a soft luxury drift */
   useEffect(() => {
-    const section = sectionRef.current
-    const card = cardRef.current
-    if (!section || !card) return undefined
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined
-
-    const xTo = gsap.quickTo(card, 'x', { duration: 0.9, ease: 'power3' })
-    const yTo = gsap.quickTo(card, 'y', { duration: 0.9, ease: 'power3' })
-
-    const onMove = (e) => {
-      const rect = section.getBoundingClientRect()
-      xTo(((e.clientX - rect.left) / rect.width - 0.5) * 26)
-      yTo(((e.clientY - rect.top) / rect.height - 0.5) * 20)
-    }
-
-    section.addEventListener('mousemove', onMove)
+    let alive = true
+    apiList('/hero-slides', HERO_SLIDES).then((data) => {
+      if (!alive) return
+      const visibleSlides = data
+        .filter((slide) => slide.active !== false && slide.heading && slide.description)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+      setSlides(visibleSlides.length ? visibleSlides : HERO_SLIDES)
+      setActive(0)
+    })
     return () => {
-      section.removeEventListener('mousemove', onMove)
-      gsap.set(card, { x: 0, y: 0 })
+      alive = false
     }
   }, [])
 
-  const total = HERO_SLIDES.length
+  const hasMultipleSlides = slides.length > 1
+  const currentSlide = slides[active] || HERO_SLIDES[0]
+  const overlayOpacity = Math.min(0.9, Math.max(0.2, Number(currentSlide.overlayOpacity ?? 58) / 100))
+
+  const pauseAutoplay = () => {
+    swiperRef.current?.autoplay?.stop()
+  }
+  const resumeAutoplay = () => {
+    if (!reducedMotion) swiperRef.current?.autoplay?.start()
+  }
 
   return (
-    <section ref={sectionRef} className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink">
-      {/* Slider */}
+    <section
+      className="relative h-[100svh] min-h-[600px] w-full overflow-hidden bg-ink sm:min-h-[640px]"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="DECORA featured services"
+      onMouseEnter={pauseAutoplay}
+      onMouseLeave={resumeAutoplay}
+      onFocusCapture={pauseAutoplay}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) resumeAutoplay()
+      }}
+    >
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
         fadeEffect={{ crossFade: true }}
-        speed={1400}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        loop
-        onSlideChange={(swiper) => setActive(swiper.realIndex)}
+        speed={reducedMotion ? 0 : 1100}
+        autoplay={
+          hasMultipleSlides && !reducedMotion
+            ? { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }
+            : false
+        }
+        loop={hasMultipleSlides}
         onSwiper={(swiper) => {
           swiperRef.current = swiper
         }}
-        className="absolute inset-0"
+        onSlideChange={(swiper) => setActive(swiper.realIndex)}
+        className="h-full w-full"
+        style={{ position: 'absolute', inset: 0 }}
         a11y={{ enabled: true }}
       >
-        {HERO_SLIDES.map((slide, index) => (
-          <SwiperSlide key={slide.image} className="bg-ink">
-            <div className={`absolute inset-0 ${index === active ? 'animate-kenburns' : ''}`}>
-              <img
-                src={slide.image}
-                alt={`${SITE.fullName} — ${slide.label}`}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            </div>
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slideKey(slide)} className="relative overflow-hidden bg-[#111]">
+            <HeroBackground slide={slide} eager={index === 0} />
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: `linear-gradient(90deg, rgba(10,10,10,${overlayOpacity}) 0%, rgba(10,10,10,${overlayOpacity * 0.72}) 52%, rgba(10,10,10,${overlayOpacity * 0.6}) 100%), linear-gradient(0deg, rgba(10,10,10,${Math.min(0.92, overlayOpacity + 0.18)}), transparent 65%)`,
+              }}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Grade & overlays */}
-      <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(10,10,10,0.92)_0%,rgba(10,10,10,0.55)_45%,rgba(10,10,10,0.35)_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_top,#0E0E0E_0%,transparent_35%)]" />
-      <div className="pattern-grid absolute inset-0 opacity-50" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_25%_45%,rgba(176,141,87,0.16),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_50%_48%,rgba(176,141,87,0.13),transparent_58%)]" />
+      <div className="pattern-grid pointer-events-none absolute inset-0 z-[1] opacity-30" />
 
-      {/* Floating decor */}
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
-        animate={{ opacity: 1, scale: 1, rotate: -12 }}
-        transition={{ delay: 2.1, duration: 1.2, ease: EASE }}
-        className="absolute right-[8%] top-[22%] hidden h-40 w-40 border border-bronze/40 xl:block"
-      />
-      <motion.div
-        aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.6, rotate: 8 }}
-        animate={{ opacity: 1, scale: 1, rotate: 8 }}
-        transition={{ delay: 2.4, duration: 1.2, ease: EASE }}
-        className="absolute right-[14%] top-[30%] hidden h-40 w-40 border border-white/15 xl:block"
-      />
-
-      {/* Content */}
-      <div className="container-luxe relative z-10 flex h-full items-center pt-20">
-        <div ref={cardRef} className="relative max-w-3xl will-change-transform">
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-5 text-center sm:px-8">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            key={slideKey(currentSlide)}
+            initial={{ opacity: 0, y: reducedMotion ? 0 : 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: TEXT_DELAY - 0.35, duration: 1, ease: EASE }}
-            className="glass-strong relative overflow-hidden p-6 md:p-8"
+            exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
+            transition={{ duration: reducedMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-5xl border border-white/10 bg-black/20 px-5 py-9 shadow-[0_24px_80px_rgba(0,0,0,0.18)] backdrop-blur-[2px] sm:px-10 sm:py-12 lg:px-16 lg:py-14"
           >
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bronze to-transparent" />
-            <div className="absolute -right-24 -top-24 h-56 w-56 rounded-full bg-bronze/20 blur-[70px]" />
-
-            <motion.span
-              initial={{ opacity: 0, x: -18 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: TEXT_DELAY, duration: 0.8, ease: EASE }}
-              className="eyebrow relative"
-            >
-              {SITE.fullName}
-            </motion.span>
-
-            <h1
-              className="heading-xl relative mt-4 font-display"
-              aria-label="Building Excellence. Designing Experiences."
-            >
-              <span className="block">
-                {LINE_1.map((word, i) => (
-                  <Word key={word} delay={TEXT_DELAY + 0.25 + i * 0.09}>
-                    {word}
-                  </Word>
-                ))}
-              </span>
-              <span className="block italic text-gradient">
-                {LINE_2.map((word, i) => (
-                  <Word key={word} delay={TEXT_DELAY + 0.55 + i * 0.09}>
-                    {word}
-                  </Word>
-                ))}
-              </span>
+            <p className="eyebrow eyebrow-center text-[10px] sm:text-xs">{currentSlide.name}</p>
+            <h1 className="mx-auto mt-5 max-w-4xl font-display text-[clamp(2.7rem,7.2vw,6.7rem)] font-medium leading-[0.98] tracking-[-0.025em] text-[#F8F5EF]">
+              <Heading heading={currentSlide.heading} highlightText={currentSlide.highlightText} />
             </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: TEXT_DELAY + 1.1, duration: 0.9, ease: EASE }}
-              className="relative mt-4 max-w-xl text-base font-light leading-relaxed text-white/75 md:text-lg"
-            >
-              {SITE.subTagline}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: TEXT_DELAY + 1.3, duration: 0.9, ease: EASE }}
-              className="relative mt-6 flex flex-col gap-4 sm:flex-row"
-            >
-              <Link to="/projects" className="btn btn-primary group">
-                Explore Projects
+            <p className="mx-auto mt-6 max-w-3xl text-sm font-light leading-relaxed text-white/75 sm:mt-7 sm:text-base md:text-lg">
+              {currentSlide.description}
+            </p>
+            {currentSlide.buttonText && currentSlide.buttonLink ? (
+              <a
+                href={currentSlide.buttonLink}
+                target={currentSlide.buttonLink.startsWith('http') ? '_blank' : undefined}
+                rel={currentSlide.buttonLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className="btn btn-primary group pointer-events-auto mt-8 min-w-48"
+              >
+                {currentSlide.buttonText}
                 <IoArrowForward className="transition-transform duration-500 group-hover:translate-x-1.5" />
-              </Link>
-              <Link to="/contact" className="btn btn-outline">
-                Contact Us
-              </Link>
-            </motion.div>
+              </a>
+            ) : null}
           </motion.div>
-
-          {/* floating chip */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: TEXT_DELAY + 1.6, duration: 0.9, ease: EASE }}
-            className="glass absolute -bottom-12 right-4 hidden animate-float px-6 py-4 md:block"
-          >
-            <p className="font-display text-3xl font-semibold text-gradient">10+</p>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-white/60">Years of Craft</p>
-          </motion.div>
-        </div>
+        </AnimatePresence>
       </div>
 
-      {/* Bottom control bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: TEXT_DELAY + 1.7, duration: 0.9, ease: EASE }}
-        className="absolute inset-x-0 bottom-0 z-10 border-t border-white/10 bg-black/25 backdrop-blur-md"
-      >
-        <div className="container-luxe flex min-h-20 items-center justify-between gap-4 py-3">
-          <div className="flex min-w-0 flex-1 items-center gap-3 overflow-hidden sm:gap-5">
-            <span className="font-display text-sm text-bronze-light">
-              {String(active + 1).padStart(2, '0')}
-              <span className="text-white/35"> / {String(total).padStart(2, '0')}</span>
-            </span>
-            <div className="h-px w-12 shrink-0 overflow-hidden bg-white/15 sm:w-20 md:w-32">
-              <motion.div
-                key={active}
-                className="h-full bg-gradient-to-r from-bronze to-gold"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 5, ease: 'linear' }}
-              />
-            </div>
-            <AnimatePresence mode="wait">
-              <span
-                key={HERO_SLIDES[active]?.label}
-                className="truncate text-[9px] font-semibold uppercase tracking-[0.2em] text-white/65 sm:text-[10.5px] sm:tracking-[0.3em]"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.35 }}
-              >
-                {HERO_SLIDES[active]?.label}
-              </span>
-            </AnimatePresence>
-          </div>
-
-          <div className="glass flex shrink-0 items-center gap-1 p-1" aria-label="Hero slides">
+      {hasMultipleSlides ? (
+        <div className="absolute inset-x-0 bottom-6 z-20 flex justify-center px-5 sm:bottom-8">
+          <div className="flex items-center gap-2 border border-white/10 bg-black/35 p-1.5 backdrop-blur-xl sm:gap-3 sm:p-2">
             <button
               type="button"
               onClick={() => swiperRef.current?.slidePrev()}
               aria-label="Previous hero slide"
               className="flex h-9 w-9 items-center justify-center text-white/70 transition-colors hover:text-bronze-light focus-visible:text-bronze-light"
             >
-              <IoArrowBack size={15} />
+              <IoArrowBack size={17} />
             </button>
-            <div className="flex items-center gap-1 px-1">
-              {HERO_SLIDES.map((slide, index) => (
+            <div className="flex items-center gap-1.5" aria-label="Choose hero slide">
+              {slides.map((slide, index) => (
                 <button
-                  key={slide.label}
+                  key={slideKey(slide)}
                   type="button"
                   onClick={() => swiperRef.current?.slideToLoop(index)}
-                  aria-label={`Show slide ${index + 1}: ${slide.label}`}
+                  aria-label={`Show slide ${index + 1}: ${slide.name}`}
                   aria-pressed={active === index}
-                  className="group flex h-9 items-center justify-center px-1"
+                  className="flex h-9 min-w-8 items-center justify-center px-1"
                 >
                   <span
                     className={`h-1 transition-all duration-500 ${
                       active === index
-                        ? 'w-6 bg-gradient-to-r from-bronze to-gold'
-                        : 'w-2 bg-white/35 group-hover:bg-white/70'
+                        ? 'w-7 bg-gradient-to-r from-bronze to-gold'
+                        : 'w-2 bg-white/35 hover:bg-white/70'
                     }`}
                   />
                 </button>
@@ -269,19 +193,16 @@ export default function Hero() {
               aria-label="Next hero slide"
               className="flex h-9 w-9 items-center justify-center text-white/70 transition-colors hover:text-bronze-light focus-visible:text-bronze-light"
             >
-              <IoArrowForward size={15} />
+              <IoArrowForward size={17} />
             </button>
           </div>
-
-          <a
-            href="#about-preview"
-            className="hidden flex-1 items-center justify-end gap-3 text-[10.5px] font-semibold uppercase tracking-[0.3em] text-white/55 transition-colors hover:text-bronze-light md:flex"
-          >
-            Scroll to Explore
-            <IoChevronDown className="animate-bounce text-bronze" size={16} />
-          </a>
+          <span className="sr-only" aria-live="polite">
+            {currentSlide.name}, slide {active + 1} of {slides.length}
+          </span>
         </div>
-      </motion.div>
+      ) : (
+        <span className="sr-only">{SITE.fullName}</span>
+      )}
     </section>
   )
 }

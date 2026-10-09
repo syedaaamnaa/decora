@@ -49,20 +49,60 @@ export const FOOTER_SERVICES = [
 
 export const HERO_SLIDES = [
   {
+    id: 'default-construction',
+    name: 'Building Excellence',
+    heading: 'Building Excellence. Designing Experiences.',
+    highlightText: 'Designing Experiences.',
+    description:
+      'Premium Civil Construction, Luxury Interiors, UPVC Windows, Aluminium and Glass Solutions for Modern Living.',
     image: img('1486406146926-c627a92ad1ab', 2000),
-    label: 'Civil Construction',
+    buttonText: 'Explore Projects',
+    buttonLink: '/projects',
+    order: 0,
+    active: true,
+    overlayOpacity: 58,
   },
   {
+    id: 'default-interiors',
+    name: 'Luxury Interiors',
+    heading: 'Spaces Designed to Inspire.',
+    highlightText: 'Designed to Inspire.',
+    description:
+      'Transforming residential and commercial spaces with elegant interior design and exceptional craftsmanship.',
     image: img('1600585154340-be6161a56a0c', 2000),
-    label: 'Luxury Interiors',
+    buttonText: 'Explore Projects',
+    buttonLink: '/projects',
+    order: 1,
+    active: true,
+    overlayOpacity: 58,
   },
   {
+    id: 'default-windows',
+    name: 'Windows & Glass',
+    heading: 'Modern Windows. Lasting Quality.',
+    highlightText: 'Lasting Quality.',
+    description:
+      'High-quality UPVC, aluminium and glass solutions designed for durability, comfort and contemporary style.',
     image: img('1487958449943-2429e8be8625', 2000),
-    label: 'Modern Building Solutions',
+    buttonText: 'View Services',
+    buttonLink: '/products',
+    order: 2,
+    active: true,
+    overlayOpacity: 58,
   },
   {
+    id: 'default-craftsmanship',
+    name: 'Our Craftsmanship',
+    heading: 'Your Vision. Our Craftsmanship.',
+    highlightText: 'Our Craftsmanship.',
+    description:
+      'From construction to the finest interior details, we bring your ideas to life with precision and care.',
     image: img('1497366754035-f200968a6e72', 2000),
-    label: 'Aluminum & Glass',
+    buttonText: 'Start a Project',
+    buttonLink: '/contact',
+    order: 3,
+    active: true,
+    overlayOpacity: 58,
   },
 ]
 
