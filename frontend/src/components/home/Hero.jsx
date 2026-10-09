@@ -126,7 +126,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: TEXT_DELAY - 0.35, duration: 1, ease: EASE }}
-            className="glass-strong relative overflow-hidden p-7 md:p-11"
+            className="glass-strong relative overflow-hidden p-6 md:p-8"
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-bronze to-transparent" />
             <div className="absolute -right-24 -top-24 h-56 w-56 rounded-full bg-bronze/20 blur-[70px]" />
@@ -141,7 +141,7 @@ export default function Hero() {
             </motion.span>
 
             <h1
-              className="heading-xl relative mt-5 font-display"
+              className="heading-xl relative mt-4 font-display"
               aria-label="Building Excellence. Designing Experiences."
             >
               <span className="block">
@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: TEXT_DELAY + 1.1, duration: 0.9, ease: EASE }}
-              className="relative mt-6 max-w-xl text-base font-light leading-relaxed text-white/75 md:text-lg"
+              className="relative mt-4 max-w-xl text-base font-light leading-relaxed text-white/75 md:text-lg"
             >
               {SITE.subTagline}
             </motion.p>
@@ -173,7 +173,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: TEXT_DELAY + 1.3, duration: 0.9, ease: EASE }}
-              className="relative mt-9 flex flex-col gap-4 sm:flex-row"
+              className="relative mt-6 flex flex-col gap-4 sm:flex-row"
             >
               <Link to="/projects" className="btn btn-primary group">
                 Explore Projects
