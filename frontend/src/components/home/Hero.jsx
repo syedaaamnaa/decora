@@ -75,6 +75,10 @@ export default function Hero() {
   const resumeAutoplay = () => {
     if (!reducedMotion) swiperRef.current?.autoplay?.start()
   }
+  const goToSlide = (index) => {
+    const swiper = swiperRef.current
+    if (swiper && !swiper.destroyed) swiper.slideTo(index)
+  }
 
   return (
     <section
@@ -172,7 +176,7 @@ export default function Hero() {
                 <button
                   key={slideKey(slide)}
                   type="button"
-                  onClick={() => swiperRef.current?.slideToLoop(index)}
+                  onClick={() => goToSlide(index)}
                   aria-label={`Show slide ${index + 1}: ${slide.name}`}
                   aria-pressed={active === index}
                   className="flex h-9 min-w-8 items-center justify-center px-1"
