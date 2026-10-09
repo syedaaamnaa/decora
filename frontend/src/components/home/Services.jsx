@@ -1,12 +1,7 @@
-import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiAperture, FiBriefcase, FiHome, FiLayers, FiLayout, FiTool, FiArrowRight } from 'react-icons/fi'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { SERVICES } from '@/data/seed'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const ICONS = {
   civil: FiLayers,
@@ -17,28 +12,8 @@ const ICONS = {
   residential: FiHome,
 }
 
-/** Premium services grid with GSAP scroll-triggered stagger. */
+/** Premium services grid. */
 export default function Services() {
-  const gridRef = useRef(null)
-
-  useEffect(() => {
-    const grid = gridRef.current
-    if (!grid) return undefined
-
-    const ctx = gsap.context(() => {
-      gsap.from('.service-card', {
-        y: 70,
-        opacity: 0,
-        duration: 1.05,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: grid, start: 'top 82%' },
-      })
-    }, grid)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
     <section className="section relative overflow-hidden bg-night">
       <div className="pattern-grid absolute inset-0 opacity-50" />
@@ -63,14 +38,14 @@ export default function Services() {
           </Link>
         </div>
 
-        <div ref={gridRef} className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service, index) => {
             const Icon = ICONS[service.icon] || FiLayers
             return (
               <Link
                 key={service.slug}
                 to="/products"
-                className="service-card glass glass-sheen glass-hover group relative overflow-hidden p-8"
+                className="glass glass-sheen glass-hover group relative overflow-hidden p-8"
               >
                 <span
                   aria-hidden="true"
