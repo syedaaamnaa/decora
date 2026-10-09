@@ -4,7 +4,7 @@ import { IoCheckmarkCircle, IoPaperPlaneOutline } from 'react-icons/io5'
 import Modal from './Modal'
 import { useInquiry } from '@/context/InquiryProvider'
 import { submitLead } from '@/lib/api'
-import { CONTACT_FORM_SERVICES } from '@/data/seed'
+import { CONTACT_FORM_SERVICES, SITE } from '@/data/seed'
 
 const EMPTY = { name: '', phone: '', email: '', service: '', message: '' }
 
@@ -152,7 +152,7 @@ export default function InquiryModal() {
                   )}
                 </button>
                 <p className="text-center text-[11px] text-white/40">
-                  Or WhatsApp us directly at +92 300 1234567
+                  Or WhatsApp us directly at {SITE.phone}
                 </p>
               </motion.form>
             )}

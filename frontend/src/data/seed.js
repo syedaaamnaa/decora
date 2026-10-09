@@ -12,13 +12,13 @@ export const SITE = {
   fullName: 'DECORA Civil & Interiors',
   tagline: 'Building Excellence. Designing Experiences.',
   subTagline: 'Premium Civil Construction & Interior Solutions for Modern Living.',
-  phone: '+92 300 1234567',
-  whatsapp: '923001234567',
+  phone: '+92 334 9125409',
+  whatsapp: '923349125409',
   email: 'hello@decora-civil.com',
-  address: 'DECORA House, Gulberg III, Lahore, Pakistan',
+  address: 'Hascol Pump, Peshawar Ring Rd., near Sarhad University, Garhi Sikandar Khan, Peshawar, 25000, Pakistan',
   hours: 'Mon – Sat: 9:00 AM – 7:00 PM',
   mapEmbed:
-    'https://maps.google.com/maps?q=Gulberg%20Lahore%20Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed',
+    'https://maps.google.com/maps?q=Hascol%20Pump%2C%20Peshawar%20Ring%20Rd.%2C%20near%20Sarhad%20University%2C%20Garhi%20Sikandar%20Khan%2C%20Peshawar%2C%2025000%2C%20Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed',
   founded: 2015,
   social: {
     instagram: 'https://instagram.com/decora.civil',
