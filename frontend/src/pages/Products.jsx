@@ -22,13 +22,8 @@ import {
 import { IoLogoWhatsapp } from 'react-icons/io5'
 import { useInquiry } from '@/context/InquiryProvider'
 import { apiList } from '@/lib/api'
-import {
-  img,
-  SITE,
-  SERVICES,
-  PRODUCTS,
-  PRODUCT_CATEGORIES,
-} from '@/data/seed'
+import { img, PRODUCTS } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 const SERVICE_ICONS = {
   civil: FiLayers,
@@ -41,29 +36,23 @@ const SERVICE_ICONS = {
 
 const FALLBACK_PRODUCT_IMAGE = img('1497215728101-856f4ea42174')
 
-const TRUST_NOTES = [
-  {
-    icon: FiShield,
-    title: 'Quality-certified sourcing',
-    text: 'Materials pulled only from approved mills, brands and fabricators — with test certificates on file.',
-  },
-  {
-    icon: FiTrendingUp,
-    title: 'Bulk supply for builders',
-    text: 'Trade pricing and consistent volumes for contractors, developers and fit-out teams.',
-  },
-  {
-    icon: FiClock,
-    title: 'Site delivery schedules',
-    text: 'Dispatch planned against your programme, so the right stock lands on the right day.',
-  },
-]
+const TRUST_ICONS = { shield: FiShield, trending: FiTrendingUp, clock: FiClock }
 
 export default function Products() {
   const [items, setItems] = useState([])
   const [loaded, setLoaded] = useState(false)
   const [cat, setCat] = useState('All')
   const { openInquiry } = useInquiry()
+  const { content } = useContent()
+  const site = content.site || {}
+  const page = content.productsPage || {}
+  const header = page.header || {}
+  const services = content.services || []
+  const productCategories = page.productCategories || []
+  const trustNotes = (page.trustNotes || []).map((note) => ({
+    ...note,
+    icon: TRUST_ICONS[note.icon] || FiShield,
+  }))
 
   useEffect(() => {
     let alive = true
@@ -88,10 +77,10 @@ export default function Products() {
       />
       <Page>
         <PageHeader
-          eyebrow="What We Offer"
-          title="Products & Services"
-          description="From civil works to finished interiors — a single source for materials, systems and turnkey solutions."
-          image={img('1497215728101-856f4ea42174', 2000)}
+          eyebrow={header.eyebrow}
+          title={header.title}
+          description={header.description}
+          image={header.image}
           breadcrumb="Products & Services"
         />
 
@@ -99,13 +88,13 @@ export default function Products() {
         <section className="section">
           <div className="container-luxe">
             <SectionHeading
-              eyebrow="Services"
-              title="Ways we build."
-              description="Six disciplines, one accountable team — take a single service or hand us the whole project."
+              eyebrow={page.servicesHeading?.eyebrow}
+              title={page.servicesHeading?.title}
+              description={page.servicesHeading?.description}
             />
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {SERVICES.map((service, i) => {
+              {services.map((service, i) => {
                 const Icon = SERVICE_ICONS[service.icon] || FiLayers
                 return (
                   <Reveal key={service.slug || service.title} delay={(i % 3) * 0.08}>
@@ -142,9 +131,9 @@ export default function Products() {
           <div className="pattern-grid absolute inset-0 opacity-60" />
           <div className="container-luxe relative">
             <SectionHeading
-              eyebrow="Catalogue"
-              title="Products & materials."
-              description="Specify from our standard range, or ask us to source and fabricate to your drawing."
+              eyebrow={page.catalogHeading?.eyebrow}
+              title={page.catalogHeading?.title}
+              description={page.catalogHeading?.description}
             />
 
             {/* Category filter pills */}
@@ -154,7 +143,7 @@ export default function Products() {
                 aria-label="Filter products by category"
                 className="flex w-max flex-wrap gap-2.5 sm:w-auto"
               >
-                {PRODUCT_CATEGORIES.map((category) => {
+                {productCategories.map((category) => {
                   const active = category === cat
                   return (
                     <button
@@ -258,7 +247,7 @@ export default function Products() {
                             <FiArrowRight aria-hidden="true" />
                           </button>
                           <a
-                            href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(
+                            href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
                               'Hi DECORA! I am interested in "' +
                                 product.title +
                                 '". Please share details.',
@@ -285,7 +274,7 @@ export default function Products() {
           <div className="container-luxe">
             <Reveal>
               <div className="glass grid divide-y divide-white/10 overflow-hidden sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-                {TRUST_NOTES.map((note) => {
+                {trustNotes.map((note) => {
                   const Icon = note.icon
                   return (
                     <div key={note.title} className="p-7 md:p-8">
@@ -305,9 +294,9 @@ export default function Products() {
         </section>
 
         <CTA
-          eyebrow="Need a custom solution?"
-          title="Tell us what you need — we source, fabricate and install."
-          text="Non-standard sizes, bespoke finishes or bulk quantities: share the specification and we will build a custom quote around it."
+          eyebrow={page.cta?.eyebrow}
+          title={page.cta?.title}
+          text={page.cta?.text}
         />
       </Page>
     </>

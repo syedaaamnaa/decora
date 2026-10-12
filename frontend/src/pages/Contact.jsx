@@ -19,47 +19,15 @@ import PageHeader from '@/components/ui/PageHeader'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/ui/Reveal'
 import { submitLead } from '@/lib/api'
-import { SITE, CONTACT_FORM_SERVICES, img } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 const EMPTY = { name: '', phone: '', email: '', service: '', message: '' }
 
-const DETAILS = [
-  {
-    icon: IoLocationOutline,
-    label: 'Address',
-    value: SITE.address,
-  },
-  {
-    icon: IoCallOutline,
-    label: 'Phone',
-    value: SITE.phone,
-    href: `tel:${SITE.phone.replace(/\s+/g, '')}`,
-  },
-  {
-    icon: IoMailOutline,
-    label: 'Email',
-    value: SITE.email,
-    href: `mailto:${SITE.email}`,
-  },
-  {
-    icon: IoLogoWhatsapp,
-    label: 'WhatsApp',
-    value: 'Chat on WhatsApp',
-    href: `https://wa.me/${SITE.whatsapp}`,
-    external: true,
-  },
-  {
-    icon: IoTimeOutline,
-    label: 'Working Hours',
-    value: SITE.hours,
-  },
-]
-
-const SOCIALS = [
-  { icon: IoLogoInstagram, href: SITE.social.instagram, label: 'Instagram' },
-  { icon: IoLogoLinkedin, href: SITE.social.linkedin, label: 'LinkedIn' },
-  { icon: IoLogoFacebook, href: SITE.social.facebook, label: 'Facebook' },
-  { icon: IoLogoYoutube, href: SITE.social.youtube, label: 'YouTube' },
+const SOCIAL_ICONS = [
+  { key: 'instagram', icon: IoLogoInstagram, label: 'Instagram' },
+  { key: 'linkedin', icon: IoLogoLinkedin, label: 'LinkedIn' },
+  { key: 'facebook', icon: IoLogoFacebook, label: 'Facebook' },
+  { key: 'youtube', icon: IoLogoYoutube, label: 'YouTube' },
 ]
 
 function DetailCard({ icon: Icon, label, value, href, external }) {
@@ -91,17 +59,37 @@ function DetailCard({ icon: Icon, label, value, href, external }) {
       </a>
     )
   }
-  return (
-    <div className={classes}>
-      {inner}
-    </div>
-  )
+  return <div className={classes}>{inner}</div>
 }
 
 export default function Contact() {
   const [form, setForm] = useState(EMPTY)
   const [status, setStatus] = useState('idle') // idle | sending | done
   const [error, setError] = useState('')
+  const { content } = useContent()
+  const site = content.site || {}
+  const page = content.contact || {}
+  const header = page.header || {}
+  const reachHeading = page.reachHeading || {}
+
+  const details = [
+    { icon: IoLocationOutline, label: 'Address', value: site.address },
+    { icon: IoCallOutline, label: 'Phone', value: site.phone, href: `tel:${(site.phone || '').replace(/\s+/g, '')}` },
+    { icon: IoMailOutline, label: 'Email', value: site.email, href: `mailto:${site.email}` },
+    {
+      icon: IoLogoWhatsapp,
+      label: 'WhatsApp',
+      value: 'Chat on WhatsApp',
+      href: `https://wa.me/${site.whatsapp}`,
+      external: true,
+    },
+    { icon: IoTimeOutline, label: 'Working Hours', value: site.hours },
+  ]
+
+  const socials = SOCIAL_ICONS.filter((s) => site.social?.[s.key]).map((s) => ({
+    ...s,
+    href: site.social[s.key],
+  }))
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }))
 
@@ -127,16 +115,13 @@ export default function Contact() {
 
   return (
     <>
-      <Seo
-        title="Contact Us"
-        description="Discuss your site, scope or idea with a DECORA consultant — call, email, WhatsApp or send a message. We respond within one working day."
-      />
+      <Seo title="Contact Us" description={header.description} />
       <Page>
         <PageHeader
-          eyebrow="Get In Touch"
-          title="Contact Us"
-          description="Discuss your site, scope or idea with a DECORA consultant — we respond within one working day."
-          image={img('1504307651254-35680f356dfd', 2000)}
+          eyebrow={header.eyebrow}
+          title={header.title}
+          description={header.description}
+          image={header.image}
           breadcrumb="Contact"
         />
 
@@ -147,13 +132,13 @@ export default function Contact() {
               {/* Left — contact details */}
               <div>
                 <SectionHeading
-                  eyebrow="Reach Us"
-                  title="Let’s start the conversation."
-                  description="Walk in, call, or send a note — the same team that builds your project answers your message."
+                  eyebrow={reachHeading.eyebrow}
+                  title={reachHeading.title}
+                  description={reachHeading.description}
                 />
 
                 <div className="space-y-4">
-                  {DETAILS.map((detail) => (
+                  {details.map((detail) => (
                     <Reveal key={detail.label}>
                       <DetailCard {...detail} />
                     </Reveal>
@@ -163,10 +148,10 @@ export default function Contact() {
                 {/* Socials */}
                 <div className="mt-8">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/45">
-                    Follow our work
+                    {page.socialsLabel}
                   </p>
                   <div className="mt-4 flex flex-wrap gap-3">
-                    {SOCIALS.map(({ icon: Icon, href, label }) => (
+                    {socials.map(({ icon: Icon, href, label }) => (
                       <a
                         key={label}
                         href={href}
@@ -189,9 +174,9 @@ export default function Contact() {
                   />
                   <p className="text-sm text-white/75">
                     <span className="font-semibold uppercase tracking-[0.18em] text-white/50">
-                      Response time —{' '}
+                      {page.responseLabel}{' '}
                     </span>
-                    Within 1 working day
+                    {page.responseTime}
                   </p>
                 </div>
               </div>
@@ -209,15 +194,9 @@ export default function Contact() {
                       className="flex min-h-[420px] flex-col items-center justify-center text-center"
                     >
                       <IoCheckmarkCircle className="text-bronze" size={60} aria-hidden="true" />
-                      <h2 className="heading-md mt-6 text-3xl">Message received!</h2>
-                      <p className="lead mt-4 max-w-md">
-                        A DECORA consultant will call you back within one working day.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={reset}
-                        className="btn btn-ghost btn-sm mt-8"
-                      >
+                      <h2 className="heading-md mt-6 text-3xl">{page.successHeading}</h2>
+                      <p className="lead mt-4 max-w-md">{page.successText}</p>
+                      <button type="button" onClick={reset} className="btn btn-ghost btn-sm mt-8">
                         Send another
                       </button>
                     </motion.div>
@@ -230,11 +209,8 @@ export default function Contact() {
                       transition={{ duration: 0.35 }}
                       onSubmit={handleSubmit}
                     >
-                      <h2 className="heading-md">Send a Message</h2>
-                      <p className="lead mt-4">
-                        Share a few lines about your site, scope and timeline — we will come back
-                        with next steps and an honest budget range.
-                      </p>
+                      <h2 className="heading-md">{page.formHeading}</h2>
+                      <p className="lead mt-4">{page.formText}</p>
 
                       <div className="mt-8 space-y-5">
                         <div className="grid gap-5 sm:grid-cols-2">
@@ -282,7 +258,7 @@ export default function Contact() {
                           </div>
                           <div>
                             <label className="field-label" htmlFor="contact-service">
-                              Service
+                              {page.serviceLabel || 'Service'}
                             </label>
                             <select
                               id="contact-service"
@@ -291,7 +267,7 @@ export default function Contact() {
                               onChange={update('service')}
                             >
                               <option value="">Select a service</option>
-                              {CONTACT_FORM_SERVICES.map((service) => (
+                              {(page.serviceOptions || []).map((service) => (
                                 <option key={service} value={service} className="bg-night">
                                   {service}
                                 </option>
@@ -338,12 +314,12 @@ export default function Contact() {
                         <p className="text-center text-[11px] text-white/45">
                           Or WhatsApp us at{' '}
                           <a
-                            href={`https://wa.me/${SITE.whatsapp}`}
+                            href={`https://wa.me/${site.whatsapp}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-bronze-light underline-offset-4 transition-colors hover:text-bronze hover:underline"
                           >
-                            {SITE.phone}
+                            {site.phone}
                           </a>
                         </p>
                       </div>
@@ -356,30 +332,32 @@ export default function Contact() {
         </section>
 
         {/* ---------------------------------- MAP ----------------------------------- */}
-        <section className="pb-20 md:pb-28 lg:pb-32">
-          <div className="container-luxe">
-            <Reveal>
-              <div className="glass relative overflow-hidden p-2">
-                <iframe
-                  title="DECORA location"
-                  src={SITE.mapEmbed}
-                  className="h-[380px] w-full border-0 [filter:grayscale(1)_invert(0.9)_contrast(0.85)]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-                <div className="pointer-events-none absolute bottom-5 left-5 max-w-[calc(100%_-_2.5rem)]">
-                  <div className="glass px-5 py-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze-light">
-                      Visit DECORA
-                    </p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/85">{SITE.address}</p>
+        {site.mapEmbed ? (
+          <section className="pb-20 md:pb-28 lg:pb-32">
+            <div className="container-luxe">
+              <Reveal>
+                <div className="glass relative overflow-hidden p-2">
+                  <iframe
+                    title="DECORA location"
+                    src={site.mapEmbed}
+                    className="h-[380px] w-full border-0 [filter:grayscale(1)_invert(0.9)_contrast(0.85)]"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
+                  />
+                  <div className="pointer-events-none absolute bottom-5 left-5 max-w-[calc(100%_-_2.5rem)]">
+                    <div className="glass px-5 py-4">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze-light">
+                        Visit DECORA
+                      </p>
+                      <p className="mt-1.5 text-sm leading-relaxed text-white/85">{site.address}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+              </Reveal>
+            </div>
+          </section>
+        ) : null}
       </Page>
     </>
   )

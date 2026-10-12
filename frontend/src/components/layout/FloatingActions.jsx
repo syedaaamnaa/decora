@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { IoArrowUp, IoLogoWhatsapp } from 'react-icons/io5'
-import { SITE } from '@/data/seed'
-
-const WA_TEXT = encodeURIComponent(
-  'Hi DECORA! I would like to discuss a project (site, scope & timeline).',
-)
+import { useContent } from '@/context/ContentProvider'
 
 /**
  * Floating actions — WhatsApp chat button + back-to-top.
  */
 export default function FloatingActions() {
   const [showTop, setShowTop] = useState(false)
+  const { content } = useContent()
+  const site = content.site || {}
+  const waText = encodeURIComponent(
+    site.whatsappMessage || 'Hi DECORA! I would like to discuss a project (site, scope & timeline).',
+  )
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 700)
@@ -40,7 +41,7 @@ export default function FloatingActions() {
       </AnimatePresence>
 
       <a
-        href={`https://wa.me/${SITE.whatsapp}?text=${WA_TEXT}`}
+        href={`https://wa.me/${site.whatsapp}?text=${waText}`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with DECORA on WhatsApp"

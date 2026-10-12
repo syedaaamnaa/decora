@@ -9,15 +9,17 @@ import ProjectCard from '@/components/projects/ProjectCard'
 import ProjectModal from '@/components/projects/ProjectModal'
 import CTA from '@/components/sections/CTA'
 import { apiList } from '@/lib/api'
-import { PROJECTS, PROJECT_CATEGORIES, img } from '@/data/seed'
-
-const HERO_IMAGE = img('1486718448742-163732cd1544', 2000)
+import { PROJECTS } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 export default function Projects() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('All')
   const [selected, setSelected] = useState(null)
+  const { content } = useContent()
+  const page = content.projectsPage || {}
+  const header = page.header || {}
 
   useEffect(() => {
     let alive = true
@@ -51,10 +53,10 @@ export default function Projects() {
         description="Explore DECORA's portfolio of residential, commercial, interior, civil and renovation projects delivered across 20+ cities."
       />
       <PageHeader
-        eyebrow="Our Portfolio"
-        title="Our Projects"
-        description="Every project is a proof of process — planned precisely, built fearlessly, finished obsessively."
-        image={HERO_IMAGE}
+        eyebrow={header.eyebrow}
+        title={header.title}
+        description={header.description}
+        image={header.image}
         breadcrumb="Projects"
       />
 
@@ -63,7 +65,7 @@ export default function Projects() {
           {/* Filters */}
           <div className="flex flex-col items-start justify-between gap-6 border-b border-white/10 pb-8 md:flex-row md:items-center">
             <div className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 no-scrollbar">
-              {PROJECT_CATEGORIES.map((cat) => {
+              {(page.filters || []).map((cat) => {
                 const active = category === cat
                 return (
                   <button
@@ -143,9 +145,9 @@ export default function Projects() {
       </section>
 
       <CTA
-        eyebrow="Your Project, Next"
-        title="Have a site in mind? Let’s make it remarkable."
-        text="Share your drawings, plot details or just an idea — we will come back with a clear scope, timeline and budget."
+        eyebrow={page.cta?.eyebrow}
+        title={page.cta?.title}
+        text={page.cta?.text}
       />
 
       <ProjectModal project={selected} onClose={() => setSelected(null)} />

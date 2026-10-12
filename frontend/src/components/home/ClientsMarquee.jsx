@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Reveal from '@/components/ui/Reveal'
 import { apiList } from '@/lib/api'
 import { CLIENTS } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 function Chip({ client }) {
   const initials = client.name
@@ -30,6 +31,8 @@ function Chip({ client }) {
 /** Infinite client logo/name marquee. */
 export default function ClientsMarquee() {
   const [clients, setClients] = useState(CLIENTS)
+  const { content } = useContent()
+  const heading = content.home?.clientsHeading || {}
 
   useEffect(() => {
     let alive = true
@@ -45,10 +48,10 @@ export default function ClientsMarquee() {
     <section className="relative overflow-hidden border-y border-white/10 bg-night py-14">
       <div className="container-luxe mb-9 flex flex-col items-center gap-3 text-center">
         <Reveal>
-          <span className="eyebrow eyebrow-center">Trusted Clients</span>
+          <span className="eyebrow eyebrow-center">{heading.eyebrow}</span>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="text-sm text-muted">Brands, builders and families who chose to build with us.</p>
+          <p className="text-sm text-muted">{heading.description}</p>
         </Reveal>
       </div>
 

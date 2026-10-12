@@ -11,6 +11,7 @@ import settingsRouter from './settings.js';
 import statsRouter from './stats.js';
 import uploadsRouter from './uploads.js';
 import heroSlidesRouter from './heroSlides.js';
+import contentRouter from './content.js';
 
 const router = Router();
 
@@ -25,5 +26,6 @@ router.use('/settings', settingsRouter);
 router.use('/stats', statsRouter);
 router.use('/uploads', uploadsRouter);
 router.use('/hero-slides', heroSlidesRouter);
+router.use('/content', contentRouter);
 
 export default router;

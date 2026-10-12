@@ -65,6 +65,10 @@ Auth = `Authorization: Bearer <token>` (from `POST /api/auth/login`).
 | DELETE | `/api/messages/:id` | ✅ | Delete message |
 | GET | `/api/settings` | — | Public site settings (singleton) |
 | PUT | `/api/settings` | ✅ | Upsert site settings |
+| GET | `/api/content` | — | All dashboard-managed content sections as `{ [key]: data }` |
+| GET | `/api/content/:key` | — | One content section (`null` when never saved) |
+| PUT | `/api/content/:key` | ✅ | Upsert a content section (`site`, `navigation`, `stats`, `services`, …) |
+| DELETE | `/api/content/:key` | ✅ | Reset a section back to the frontend defaults |
 | GET | `/api/stats` | ✅ | Dashboard counts (projects, products, leads, …) |
 | POST | `/api/uploads` | ✅ | Upload file (`file`) → `{ url }` |
 
@@ -73,3 +77,4 @@ Auth = `Authorization: Bearer <token>` (from `POST /api/auth/login`).
 - **Files**: uploads are stored in `uploads/` and served at `/uploads/<filename>`. Accepted types: jpg, jpeg, png, webp, gif, svg, avif (8 MB max).
 - **Multipart or JSON**: create/update endpoints accept both — uploaded files are merged into the body (`image`, `images`, `logo`, `avatar`, `cover`).
 - **Errors**: 4xx errors throw `Error` with `statusCode`; everything flows through the central error handler.
+- **Dynamic content**: every non-collection part of the website (brand/contact details, navbar & footer links, home statistics, services, why-choose-us cards, and every page heading/paragraph/image) is stored under `/api/content/:key` as free-form JSON. The public site deep-merges saved sections over its bundled defaults (`frontend/src/data/defaultContent.js`), so it renders even when the API is unavailable. Manage it from the admin **Site Content** screen.

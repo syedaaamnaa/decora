@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { IoCallOutline, IoClose, IoMenu } from 'react-icons/io5'
 import Logo from '@/components/ui/Logo'
 import { useInquiry } from '@/context/InquiryProvider'
-import { NAV_LINKS, SITE } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 /**
  * Fixed premium navbar — transparent over hero, glass on scroll,
@@ -15,6 +15,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
   const { openInquiry } = useInquiry()
+  const { content } = useContent()
+  const site = content.site || {}
+  const navLinks = content.navigation?.links || []
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -52,7 +55,7 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
@@ -81,11 +84,11 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-5 lg:flex">
             <a
-              href={`tel:${SITE.phone.replace(/\s/g, '')}`}
+              href={`tel:${(site.phone || '').replace(/\s/g, '')}`}
               className="hidden items-center gap-2 text-xs tracking-[0.14em] text-white/60 transition-colors hover:text-bronze-light xl:flex"
             >
               <IoCallOutline className="text-bronze" />
-              {SITE.phone}
+              {site.phone}
             </a>
             <button type="button" onClick={() => openInquiry()} className="btn btn-primary btn-sm">
               Get a Quote
@@ -131,7 +134,7 @@ export default function Navbar() {
             </div>
 
             <nav className="container-luxe relative mt-6 flex-1 overflow-y-auto" aria-label="Mobile">
-              {NAV_LINKS.map((link, index) => {
+              {navLinks.map((link, index) => {
                 const active = location.pathname === link.to
                 return (
                   <motion.div
@@ -172,10 +175,10 @@ export default function Navbar() {
                   Start Your Project
                 </button>
                 <a
-                  href={`tel:${SITE.phone.replace(/\s/g, '')}`}
+                  href={`tel:${(site.phone || '').replace(/\s/g, '')}`}
                   className="flex items-center justify-center gap-2 text-sm text-white/60"
                 >
-                  <IoCallOutline className="text-bronze" /> {SITE.phone}
+                  <IoCallOutline className="text-bronze" /> {site.phone}
                 </a>
               </motion.div>
             </nav>

@@ -11,6 +11,7 @@ import FloatingActions from '@/components/layout/FloatingActions'
 import Loader from '@/components/ui/Loader'
 import InquiryModal from '@/components/ui/InquiryModal'
 import { InquiryProvider } from '@/context/InquiryProvider'
+import { ContentProvider } from '@/context/ContentProvider'
 
 /* Public pages */
 const Home = lazy(() => import('@/pages/Home'))
@@ -31,6 +32,7 @@ const AdminProducts = lazy(() => import('@/pages/admin/AdminProducts'))
 const AdminClients = lazy(() => import('@/pages/admin/AdminClients'))
 const AdminTestimonials = lazy(() => import('@/pages/admin/AdminTestimonials'))
 const AdminLeads = lazy(() => import('@/pages/admin/AdminLeads'))
+const AdminContent = lazy(() => import('@/pages/admin/AdminContent'))
 
 export default function App() {
   const location = useLocation()
@@ -58,6 +60,7 @@ export default function App() {
         <Route path="products" element={<AdminProducts />} />
         <Route path="clients" element={<AdminClients />} />
         <Route path="testimonials" element={<AdminTestimonials />} />
+        <Route path="content" element={<AdminContent />} />
         <Route path="leads" element={<AdminLeads />} />
       </Route>
       <Route path="*" element={<NotFound />} />
@@ -65,8 +68,9 @@ export default function App() {
   )
 
   return (
-    <InquiryProvider>
-      <RouteScrollTop />
+    <ContentProvider>
+      <InquiryProvider>
+        <RouteScrollTop />
 
       {!isAdminArea && (
         <>
@@ -101,7 +105,8 @@ export default function App() {
         </PublicLayout>
       )}
 
-      <InquiryModal />
-    </InquiryProvider>
+        <InquiryModal />
+      </InquiryProvider>
+    </ContentProvider>
   )
 }

@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { IoCheckmarkCircle, IoPaperPlaneOutline } from 'react-icons/io5'
 import Modal from './Modal'
 import { useInquiry } from '@/context/InquiryProvider'
+import { useContent } from '@/context/ContentProvider'
 import { submitLead } from '@/lib/api'
-import { CONTACT_FORM_SERVICES, SITE } from '@/data/seed'
 
 const EMPTY = { name: '', phone: '', email: '', service: '', message: '' }
 
@@ -13,6 +13,9 @@ const EMPTY = { name: '', phone: '', email: '', service: '', message: '' }
  */
 export default function InquiryModal() {
   const { isOpen, presetService, closeInquiry } = useInquiry()
+  const { content } = useContent()
+  const site = content.site || {}
+  const serviceOptions = content.contact?.serviceOptions || []
   const [form, setForm] = useState(EMPTY)
   const [status, setStatus] = useState('idle') // idle | sending | done | error
   const [error, setError] = useState('')
@@ -128,7 +131,7 @@ export default function InquiryModal() {
                     <label className="field-label" htmlFor="iq-service">Service</label>
                     <select id="iq-service" className="field" value={form.service} onChange={update('service')}>
                       <option value="">Select a service</option>
-                      {CONTACT_FORM_SERVICES.map((s) => (
+                      {serviceOptions.map((s) => (
                         <option key={s} value={s} className="bg-night">{s}</option>
                       ))}
                     </select>
@@ -152,7 +155,7 @@ export default function InquiryModal() {
                   )}
                 </button>
                 <p className="text-center text-[11px] text-white/40">
-                  Or WhatsApp us directly at {SITE.phone}
+                  Or WhatsApp us directly at {site.phone}
                 </p>
               </motion.form>
             )}

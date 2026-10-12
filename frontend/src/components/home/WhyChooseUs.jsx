@@ -3,7 +3,7 @@ import { IoArrowForward as IoArrow } from 'react-icons/io5'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/ui/Reveal'
 import { useInquiry } from '@/context/InquiryProvider'
-import { WHY_CHOOSE_US } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 const ICONS = {
   quality: FiAward,
@@ -17,6 +17,9 @@ const ICONS = {
 /** Why choose us — sticky intro + icon cards. */
 export default function WhyChooseUs() {
   const { openInquiry } = useInquiry()
+  const { content } = useContent()
+  const heading = content.home?.whyHeading || {}
+  const items = content.whyChooseUs || []
 
   return (
     <section className="section relative overflow-hidden bg-night">
@@ -26,24 +29,27 @@ export default function WhyChooseUs() {
       <div className="container-luxe relative grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHeading
-            eyebrow="Why Choose Us"
+            eyebrow={heading.eyebrow}
             title={
               <>
-                The DECORA <em className="font-normal not-italic text-gradient">difference.</em>
+                {heading.title}{' '}
+                {heading.titleHighlight ? (
+                  <em className="font-normal not-italic text-gradient">{heading.titleHighlight}</em>
+                ) : null}
               </>
             }
-            description="We are not the cheapest quote you will get — we are the last one you will need."
+            description={heading.description}
           />
           <Reveal delay={0.3}>
             <button type="button" onClick={() => openInquiry()} className="btn btn-primary group">
-              Start a Conversation
+              {heading.ctaLabel || 'Start a Conversation'}
               <IoArrow className="transition-transform duration-500 group-hover:translate-x-1.5" />
             </button>
           </Reveal>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          {WHY_CHOOSE_US.map((item, index) => {
+          {items.map((item, index) => {
             const Icon = ICONS[item.icon] || FiAward
             return (
               <Reveal key={item.title} delay={index * 0.09}>

@@ -5,20 +5,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { IoCheckmarkDone, IoArrowForward } from 'react-icons/io5'
 import Reveal from '@/components/ui/Reveal'
 import LazyImage from '@/components/ui/LazyImage'
-import { COMPANY_ABOUT, img } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const HIGHLIGHTS = [
-  'In-house engineering, design & execution teams',
-  '150+ projects delivered across 20+ cities',
-  'Single-point accountability from drawing to handover',
-]
 
 /** Home "Who We Are" split preview with GSAP parallax imagery. */
 export default function AboutPreview() {
   const sectionRef = useRef(null)
   const parallaxRef = useRef(null)
+  const { content } = useContent()
+  const about = content.home?.about || {}
+  const highlights = about.highlights || []
 
   useEffect(() => {
     const section = sectionRef.current
@@ -54,8 +51,8 @@ export default function AboutPreview() {
           <div className="glass relative overflow-hidden p-2">
             <div ref={parallaxRef} className="will-change-transform">
               <LazyImage
-                src={img('1590725140246-20acdee442be', 1400)}
-                alt="DECORA construction site"
+                src={about.image}
+                alt={about.eyebrow || 'About DECORA'}
                 className="aspect-[4/5] w-full"
               />
             </div>
@@ -63,17 +60,17 @@ export default function AboutPreview() {
 
           <div className="absolute -bottom-8 -right-2 hidden w-48 border-4 border-ink shadow-glass-lg sm:block lg:-right-8 lg:w-56">
             <LazyImage
-              src={img('1486406146926-c627a92ad1ab', 800)}
-              alt="Modern glass building"
+              src={about.imageSecondary}
+              alt={about.title || 'About DECORA'}
               className="aspect-square w-full"
             />
           </div>
 
           <Reveal delay={0.35} className="absolute -left-3 top-8 hidden md:block">
             <div className="glass animate-float px-6 py-5">
-              <p className="font-display text-4xl font-semibold text-gradient">10+</p>
+              <p className="font-display text-4xl font-semibold text-gradient">{about.badgeValue}</p>
               <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-white/60">
-                Years of Excellence
+                {about.badgeLabel}
               </p>
             </div>
           </Reveal>
@@ -87,26 +84,25 @@ export default function AboutPreview() {
         {/* Copy */}
         <div>
           <Reveal>
-            <span className="eyebrow">Who We Are</span>
+            <span className="eyebrow">{about.eyebrow}</span>
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="heading-lg mt-5 text-balance">
-              Craftsmanship is our language.{' '}
-              <em className="font-normal not-italic text-gradient">Precision is our habit.</em>
+              {about.title}{' '}
+              {about.titleHighlight ? (
+                <em className="font-normal not-italic text-gradient">{about.titleHighlight}</em>
+              ) : null}
             </h2>
           </Reveal>
           <Reveal delay={0.18}>
-            <p className="lead mt-6">{COMPANY_ABOUT}</p>
+            <p className="lead mt-6">{about.text}</p>
           </Reveal>
           <Reveal delay={0.26}>
-            <p className="mt-4 text-sm leading-relaxed text-white/55">
-              From structural civil work to the last coat of finish, everything is planned,
-              engineered and supervised by our own teams — so quality never depends on guesswork.
-            </p>
+            <p className="mt-4 text-sm leading-relaxed text-white/55">{about.textSecondary}</p>
           </Reveal>
 
           <ul className="mt-8 space-y-4">
-            {HIGHLIGHTS.map((item, i) => (
+            {highlights.map((item, i) => (
               <li key={item}>
                 <Reveal
                   delay={0.3 + i * 0.08}
@@ -122,8 +118,8 @@ export default function AboutPreview() {
           </ul>
 
           <Reveal delay={0.5}>
-            <Link to="/about" className="btn btn-outline group mt-10">
-              Read more about DECORA
+            <Link to={about.ctaLink || '/about'} className="btn btn-outline group mt-10">
+              {about.ctaLabel || 'Read more about DECORA'}
               <IoArrowForward className="transition-transform duration-500 group-hover:translate-x-1.5" />
             </Link>
           </Reveal>

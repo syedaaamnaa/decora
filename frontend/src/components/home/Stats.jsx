@@ -1,9 +1,12 @@
 import Reveal from '@/components/ui/Reveal'
 import Counter from '@/components/ui/Counter'
-import { STATS } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 /** Animated counters in glass cards. */
 export default function Stats() {
+  const { content } = useContent()
+  const stats = content.stats || []
+
   return (
     <section className="relative overflow-hidden border-b border-white/10 bg-ink py-16 md:py-20">
       <div className="pattern-grid absolute inset-0 opacity-70" />
@@ -11,7 +14,7 @@ export default function Stats() {
 
       <div className="container-luxe relative">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {STATS.map((stat, index) => (
+          {stats.map((stat, index) => (
             <Reveal key={stat.label} delay={index * 0.1}>
               <div className="glass glass-hover group relative h-full overflow-hidden p-8 text-center md:p-10">
                 <span

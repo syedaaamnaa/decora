@@ -7,7 +7,8 @@ import 'swiper/css'
 import 'swiper/css/effect-fade'
 
 import { apiList } from '@/lib/api'
-import { HERO_SLIDES, SITE } from '@/data/seed'
+import { HERO_SLIDES } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 function HeroBackground({ slide, eager }) {
   const [failed, setFailed] = useState(false)
@@ -45,6 +46,8 @@ function slideKey(slide) {
 }
 
 export default function Hero() {
+  const { content } = useContent()
+  const site = content.site || {}
   const [slides, setSlides] = useState(HERO_SLIDES)
   const [active, setActive] = useState(0)
   const swiperRef = useRef(null)
@@ -205,7 +208,7 @@ export default function Hero() {
           </span>
         </div>
       ) : (
-        <span className="sr-only">{SITE.fullName}</span>
+        <span className="sr-only">{site.fullName}</span>
       )}
     </section>
   )

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { FiAperture, FiBriefcase, FiHome, FiLayers, FiLayout, FiTool, FiArrowRight } from 'react-icons/fi'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { SERVICES } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 
 const ICONS = {
   civil: FiLayers,
@@ -14,6 +14,10 @@ const ICONS = {
 
 /** Premium services grid. */
 export default function Services() {
+  const { content } = useContent()
+  const heading = content.home?.servicesHeading || {}
+  const services = content.services || []
+
   return (
     <section className="section relative overflow-hidden bg-night">
       <div className="pattern-grid absolute inset-0 opacity-50" />
@@ -22,28 +26,30 @@ export default function Services() {
       <div className="container-luxe relative">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
-            eyebrow="What We Do"
+            eyebrow={heading.eyebrow}
             title={
               <>
-                End-to-end solutions,{' '}
-                <em className="font-normal not-italic text-gradient">executed flawlessly.</em>
+                {heading.title}{' '}
+                {heading.titleHighlight ? (
+                  <em className="font-normal not-italic text-gradient">{heading.titleHighlight}</em>
+                ) : null}
               </>
             }
-            description="Six specialised divisions, one standard of quality — coordinated under a single team."
+            description={heading.description}
             className="mb-0 max-w-2xl"
           />
-          <Link to="/products" className="btn btn-ghost btn-sm hidden md:inline-flex group">
-            All Services
+          <Link to={heading.ctaLink || '/products'} className="btn btn-ghost btn-sm hidden md:inline-flex group">
+            {heading.ctaLabel || 'All Services'}
             <FiArrowRight className="transition-transform duration-500 group-hover:translate-x-1.5" />
           </Link>
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((service, index) => {
+          {services.map((service, index) => {
             const Icon = ICONS[service.icon] || FiLayers
             return (
               <Link
-                key={service.slug}
+                key={service.slug || service.title}
                 to="/products"
                 className="glass glass-sheen glass-hover group relative overflow-hidden p-8"
               >
@@ -83,8 +89,8 @@ export default function Services() {
         </div>
 
         <div className="mt-10 md:hidden">
-          <Link to="/products" className="btn btn-ghost w-full group">
-            All Services <FiArrowRight />
+          <Link to={heading.ctaLink || '/products'} className="btn btn-ghost w-full group">
+            {heading.ctaLabel || 'All Services'} <FiArrowRight />
           </Link>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { IoChevronBack, IoChevronForward } from 'react-icons/io5'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { apiList } from '@/lib/api'
 import { TESTIMONIALS } from '@/data/seed'
+import { useContent } from '@/context/ContentProvider'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
@@ -13,6 +14,8 @@ import 'swiper/css/pagination'
 export default function Testimonials() {
   const [items, setItems] = useState([])
   const [swiper, setSwiper] = useState(null)
+  const { content } = useContent()
+  const heading = content.home?.testimonialsHeading || {}
 
   useEffect(() => {
     let alive = true
@@ -31,12 +34,16 @@ export default function Testimonials() {
 
       <div className="container-luxe relative">
         <SectionHeading
-          eyebrow="Testimonials"
+          eyebrow={heading.eyebrow}
           title={
             <>
-              Trusted by those we <em className="font-normal not-italic text-gradient">build for.</em>
+              {heading.title}{' '}
+              {heading.titleHighlight ? (
+                <em className="font-normal not-italic text-gradient">{heading.titleHighlight}</em>
+              ) : null}
             </>
           }
+          description={heading.description}
           align="center"
         />
 

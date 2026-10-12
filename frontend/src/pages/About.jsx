@@ -7,35 +7,34 @@ import Reveal from '@/components/ui/Reveal'
 import LazyImage from '@/components/ui/LazyImage'
 import Counter from '@/components/ui/Counter'
 import CTA from '@/components/sections/CTA'
-import {
-  img,
-  COMPANY_ABOUT,
-  COMPANY_STORY,
-  MISSION,
-  VISION,
-  VALUES,
-  TEAM,
-  ACHIEVEMENTS,
-} from '@/data/seed'
-
-const PILAR_CARDS = [
-  { label: 'Our Mission', text: MISSION },
-  { label: 'Our Vision', text: VISION },
-]
+import { useContent } from '@/context/ContentProvider'
 
 export default function About() {
+  const { content } = useContent()
+  const about = content.about || {}
+  const header = about.header || {}
+  const storyHeading = about.storyHeading || {}
+  const collage = about.collage || {}
+  const pillarsHeading = about.pillarsHeading || {}
+  const teamHeading = about.teamHeading || {}
+
+  const pillars = [
+    { label: 'Our Mission', text: about.mission },
+    { label: 'Our Vision', text: about.vision },
+  ]
+
   return (
     <>
       <Seo
         title="About DECORA"
-        description="From a two-person crew in 2015 to 150+ projects across 20+ cities — the story, principles and people behind DECORA Civil & Interiors."
+        description={header.description}
       />
       <Page>
         <PageHeader
-          eyebrow="Who We Are"
-          title="About DECORA"
-          description={COMPANY_ABOUT}
-          image={img('1504307651254-35680f356dfd', 2000)}
+          eyebrow={header.eyebrow}
+          title={header.title}
+          description={header.description}
+          image={header.image}
           breadcrumb="About"
         />
 
@@ -48,22 +47,22 @@ export default function About() {
                 <div className="relative mx-auto max-w-md lg:max-w-none">
                   <div className="glass p-2">
                     <LazyImage
-                      src={img('1590725140246-20acdee442be')}
+                      src={collage.primary}
                       alt="Craftsmanship on a DECORA site"
                       className="aspect-[4/5] w-full"
                     />
                   </div>
                   <div className="glass relative z-10 -mt-16 ml-auto w-[64%] p-2 sm:-mt-20">
                     <LazyImage
-                      src={img('1486406146926-c627a92ad1ab')}
+                      src={collage.secondary}
                       alt="A DECORA commercial build"
                       className="aspect-[4/3] w-full"
                     />
                   </div>
                   <div className="glass animate-float absolute bottom-4 left-0 z-20 px-5 py-4">
-                    <p className="font-display text-2xl text-bronze-light">10+ Years</p>
+                    <p className="font-display text-2xl text-bronze-light">{collage.badgeValue}</p>
                     <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/60">
-                      of Excellence
+                      {collage.badgeLabel}
                     </p>
                   </div>
                 </div>
@@ -71,29 +70,17 @@ export default function About() {
 
               {/* Story + timeline */}
               <div>
-                <SectionHeading
-                  eyebrow="Our Story"
-                  title="A decade of building with intent."
-                />
+                <SectionHeading eyebrow={storyHeading.eyebrow} title={storyHeading.title} />
                 <div className="space-y-5">
-                  <p className="lead">
-                    DECORA began in 2015 with a two-person crew and a simple conviction — that a
-                    building is only as good as the people who care about it. Ten years on, that
-                    conviction still runs the company: engineers, designers, project managers and
-                    craftsmen work under one roof, so nothing important is ever handed off to
-                    chance.
-                  </p>
-                  <p className="lead">
-                    We keep execution in-house wherever it matters most — surveying, shuttering,
-                    joinery, glazing and finishing — because quality is hardest to control once it
-                    is outsourced. Every site runs on documented QA/QC checklists, weekly
-                    accountability and the same detailing standard we would accept in our own
-                    homes.
-                  </p>
+                  {(about.storyParagraphs || []).map((paragraph, i) => (
+                    <p className="lead" key={i}>
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
 
                 <p className="mt-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-white/45">
-                  Milestones
+                  {about.milestonesLabel || 'Milestones'}
                 </p>
 
                 {/* Vertical timeline */}
@@ -103,8 +90,8 @@ export default function About() {
                     className="absolute left-[7px] top-2 bottom-0 w-px bg-gradient-to-b from-bronze to-transparent"
                   />
                   <div className="space-y-8">
-                    {COMPANY_STORY.map((item, i) => (
-                      <Reveal key={item.year} delay={i * 0.07}>
+                    {(about.milestones || []).map((item, i) => (
+                      <Reveal key={`${item.year}-${i}`} delay={i * 0.07}>
                         <div className="relative pl-9">
                           <span
                             aria-hidden="true"
@@ -132,13 +119,13 @@ export default function About() {
           <div className="pattern-grid absolute inset-0 opacity-60" />
           <div className="container-luxe relative">
             <SectionHeading
-              eyebrow="What Guides Us"
-              title="Mission, vision and the values behind both."
-              description="Two promises we hold ourselves to, and the four principles that decide how we keep them."
+              eyebrow={pillarsHeading.eyebrow}
+              title={pillarsHeading.title}
+              description={pillarsHeading.description}
             />
 
             <div className="grid gap-6 md:grid-cols-2">
-              {PILAR_CARDS.map((card, i) => (
+              {pillars.map((card, i) => (
                 <Reveal key={card.label} delay={i * 0.1}>
                   <article className="glass h-full p-8 md:p-10">
                     <span className="eyebrow">{card.label}</span>
@@ -150,8 +137,8 @@ export default function About() {
             </div>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {VALUES.map((value, i) => (
-                <Reveal key={value.title} delay={i * 0.07}>
+              {(about.values || []).map((value, i) => (
+                <Reveal key={`${value.title}-${i}`} delay={i * 0.07}>
                   <article className="glass glass-hover h-full p-6">
                     <span
                       className="font-display text-5xl leading-none text-transparent"
@@ -176,14 +163,14 @@ export default function About() {
           <div className="container-luxe">
             <SectionHeading
               align="center"
-              eyebrow="The People"
-              title="Minds behind the craft."
-              description="Designers, engineers and project managers who obsess over the details no one else sees."
+              eyebrow={teamHeading.eyebrow}
+              title={teamHeading.title}
+              description={teamHeading.description}
             />
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {TEAM.map((member, i) => (
-                <Reveal key={member.name} delay={(i % 3) * 0.08}>
+              {(about.team || []).map((member, i) => (
+                <Reveal key={`${member.name}-${i}`} delay={(i % 3) * 0.08}>
                   <motion.article
                     initial="idle"
                     whileHover="hover"
@@ -222,20 +209,16 @@ export default function About() {
         {/* ------------------------------ ACHIEVEMENTS ------------------------------- */}
         <section className="relative overflow-hidden py-20 md:py-24">
           <div className="absolute inset-0 opacity-35">
-            <LazyImage
-              src={img('1486718448742-163732cd1544', 2000)}
-              alt=""
-              className="h-full w-full"
-            />
+            <LazyImage src={about.achievementsImage} alt="" className="h-full w-full" />
           </div>
           <div className="absolute inset-0 bg-ink/85" />
           <div className="pattern-grid absolute inset-0 opacity-60" />
 
           <div className="container-luxe relative">
             <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
-              {ACHIEVEMENTS.map((stat, i) => (
+              {(about.achievements || []).map((stat, i) => (
                 <Reveal
-                  key={stat.label}
+                  key={`${stat.label}-${i}`}
                   delay={i * 0.08}
                   className="glass relative px-5 py-9 text-center"
                 >
