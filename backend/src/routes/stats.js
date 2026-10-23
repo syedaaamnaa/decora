@@ -5,13 +5,14 @@ import Product from '../models/Product.js';
 import Client from '../models/Client.js';
 import Testimonial from '../models/Testimonial.js';
 import ContactMessage from '../models/ContactMessage.js';
+import CuttingPlan from '../models/CuttingPlan.js';
 import { protect } from '../middleware/auth.js';
 
 const router = Router();
 
 /** GET /api/stats — dashboard counters (admin only). */
 router.get('/', protect, async (req, res) => {
-  const [projects, products, clients, testimonials, leads, newLeads] =
+  const [projects, products, clients, testimonials, leads, newLeads, cuttingPlans] =
     await Promise.all([
       Project.countDocuments(),
       Product.countDocuments(),
@@ -19,11 +20,12 @@ router.get('/', protect, async (req, res) => {
       Testimonial.countDocuments(),
       ContactMessage.countDocuments(),
       ContactMessage.countDocuments({ status: 'new' }),
+      CuttingPlan.countDocuments(),
     ]);
 
   res.json({
     success: true,
-    data: { projects, products, clients, testimonials, leads, newLeads },
+    data: { projects, products, clients, testimonials, leads, newLeads, cuttingPlans },
   });
 });
 

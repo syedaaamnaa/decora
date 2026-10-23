@@ -13,6 +13,7 @@ import {
   FiLayout,
   FiLogOut,
   FiMessageSquare,
+  FiScissors,
   FiUsers,
 } from 'react-icons/fi'
 import Logo from '@/components/ui/Logo'
@@ -22,6 +23,7 @@ const NAV = [
   { to: '/admin', label: 'Dashboard', icon: FiGrid, end: true },
   { to: '/admin/hero', label: 'Hero Slides', icon: FiImage },
   { to: '/admin/content', label: 'Site Content', icon: FiLayout },
+  { to: '/admin/cutting', label: 'Cutting', icon: FiScissors },
   { to: '/admin/projects', label: 'Projects', icon: FiBriefcase },
   { to: '/admin/products', label: 'Products', icon: FiBox },
   { to: '/admin/clients', label: 'Clients', icon: FiUsers },
@@ -35,6 +37,7 @@ const TITLES = [
   { match: '/admin/products', title: 'Products' },
   { match: '/admin/clients', title: 'Clients' },
   { match: '/admin/testimonials', title: 'Testimonials' },
+  { match: '/admin/cutting', title: 'Cutting Optimizer' },
   { match: '/admin/leads', title: 'Contact Leads' },
 ]
 

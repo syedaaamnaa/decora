@@ -33,6 +33,7 @@ export const NAV_LINKS = [
   { label: 'About', to: '/about' },
   { label: 'Projects', to: '/projects' },
   { label: 'Products & Services', to: '/products' },
+  { label: 'Cutting', to: '/cutting' },
   { label: 'Contact', to: '/contact' },
 ]
 

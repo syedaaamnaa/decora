@@ -19,6 +19,7 @@ const About = lazy(() => import('@/pages/About'))
 const Projects = lazy(() => import('@/pages/Projects'))
 const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'))
 const Products = lazy(() => import('@/pages/Products'))
+const Cutting = lazy(() => import('@/pages/Cutting'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
@@ -33,6 +34,7 @@ const AdminClients = lazy(() => import('@/pages/admin/AdminClients'))
 const AdminTestimonials = lazy(() => import('@/pages/admin/AdminTestimonials'))
 const AdminLeads = lazy(() => import('@/pages/admin/AdminLeads'))
 const AdminContent = lazy(() => import('@/pages/admin/AdminContent'))
+const AdminCutting = lazy(() => import('@/pages/admin/AdminCutting'))
 
 export default function App() {
   const location = useLocation()
@@ -45,6 +47,7 @@ export default function App() {
       <Route path="/projects" element={<Projects />} />
       <Route path="/projects/:slug" element={<ProjectDetail />} />
       <Route path="/products" element={<Products />} />
+      <Route path="/cutting" element={<Cutting />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
@@ -62,6 +65,7 @@ export default function App() {
         <Route path="testimonials" element={<AdminTestimonials />} />
         <Route path="content" element={<AdminContent />} />
         <Route path="leads" element={<AdminLeads />} />
+        <Route path="cutting" element={<AdminCutting />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

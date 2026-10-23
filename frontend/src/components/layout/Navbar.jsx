@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { IoCallOutline, IoClose, IoMenu } from 'react-icons/io5'
@@ -17,7 +17,18 @@ export default function Navbar() {
   const { openInquiry } = useInquiry()
   const { content } = useContent()
   const site = content.site || {}
-  const navLinks = content.navigation?.links || []
+  const navLinks = useMemo(() => {
+    const links = content.navigation?.links || []
+    if (links.some((link) => link.to === '/cutting')) return links
+    // The cutting optimizer is a core workshop page — keep it reachable even
+    // when an older saved navigation override predates it.
+    const next = [...links]
+    const contactIndex = next.findIndex((link) => link.to === '/contact')
+    const cutting = { label: 'Cutting', to: '/cutting' }
+    if (contactIndex >= 0) next.splice(contactIndex, 0, cutting)
+    else next.push(cutting)
+    return next
+  }, [content])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -54,7 +65,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="Primary">
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}

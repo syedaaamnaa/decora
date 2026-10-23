@@ -12,6 +12,7 @@ import statsRouter from './stats.js';
 import uploadsRouter from './uploads.js';
 import heroSlidesRouter from './heroSlides.js';
 import contentRouter from './content.js';
+import cuttingRouter from './cutting.js';
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.use('/stats', statsRouter);
 router.use('/uploads', uploadsRouter);
 router.use('/hero-slides', heroSlidesRouter);
 router.use('/content', contentRouter);
+router.use('/cutting', cuttingRouter);
 
 export default router;

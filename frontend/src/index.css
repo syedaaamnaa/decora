@@ -237,6 +237,60 @@
   .field-label {
     @apply mb-2 block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55;
   }
+
+  /* ---------- Cutting optimizer ---------- */
+  .cut-field {
+    @apply w-full border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white transition-colors duration-300 placeholder:text-white/30 focus:border-bronze/60 focus:bg-white/[0.08] focus:outline-none;
+  }
+
+  .cut-field option {
+    @apply bg-ink text-white;
+  }
+
+  .cut-label {
+    @apply mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.2em] text-white/45;
+  }
+
+  .cut-table-head {
+    @apply whitespace-nowrap px-3 py-2.5 text-left text-[9px] font-semibold uppercase tracking-[0.18em] text-white/40;
+  }
+
+  .cut-table-cell {
+    @apply px-2 py-1.5 align-middle;
+  }
+
+  .cut-sheet {
+    @apply shadow-[0_18px_50px_rgba(0,0,0,0.45)];
+  }
+}
+
+/* ---------- Cutting plan printing ---------- */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+  body.printing > #root {
+    display: none !important;
+  }
+  .print-root {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+  .print-root > div {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .print-page + .print-page {
+    break-before: page;
+  }
 }
 
 @layer utilities {

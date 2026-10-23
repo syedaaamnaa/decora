@@ -9,6 +9,7 @@ import {
   FiMail,
   FiMessageSquare,
   FiPlus,
+  FiScissors,
   FiUsers,
 } from 'react-icons/fi'
 import Loader from '@/components/ui/Loader'
@@ -16,7 +17,15 @@ import LazyImage from '@/components/ui/LazyImage'
 import { apiGet, apiList } from '@/lib/api'
 import { Panel, StatCard, StatusPill, idOf, timeAgo } from './admin-ui'
 
-const ZEROS = { projects: 0, products: 0, clients: 0, testimonials: 0, leads: 0, newLeads: 0 }
+const ZEROS = {
+  projects: 0,
+  products: 0,
+  clients: 0,
+  testimonials: 0,
+  leads: 0,
+  newLeads: 0,
+  cuttingPlans: 0,
+}
 
 const STAT_CARDS = [
   { key: 'projects', label: 'Projects', icon: FiBriefcase },
@@ -25,6 +34,7 @@ const STAT_CARDS = [
   { key: 'testimonials', label: 'Testimonials', icon: FiMessageSquare },
   { key: 'leads', label: 'Leads', icon: FiInbox },
   { key: 'newLeads', label: 'New Leads', icon: FiMail },
+  { key: 'cuttingPlans', label: 'Cutting Plans', icon: FiScissors },
 ]
 
 const QUICK_ACTIONS = [
@@ -32,6 +42,7 @@ const QUICK_ACTIONS = [
   { to: '/admin/products', label: 'New Product', icon: FiBox },
   { to: '/admin/clients', label: 'Add Client', icon: FiUsers },
   { to: '/admin/testimonials', label: 'New Testimonial', icon: FiMessageSquare },
+  { to: '/admin/cutting', label: 'Cutting Plans', icon: FiScissors },
 ]
 
 /**
@@ -85,7 +96,7 @@ export default function Dashboard() {
       ) : (
         <>
           {/* ---------- stats ---------- */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
             {STAT_CARDS.map(({ key, label, icon }, i) => (
               <motion.div
                 key={key}
@@ -173,7 +184,7 @@ export default function Dashboard() {
 
           {/* ---------- quick actions ---------- */}
           <Panel title="Quick Actions" subtitle="Jump straight into content management">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {QUICK_ACTIONS.map(({ to, label, icon: Icon }) => (
                 <Link
                   key={to}
